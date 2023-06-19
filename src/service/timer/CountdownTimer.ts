@@ -1,21 +1,17 @@
 import { ONE_SECOND_INTERVAL } from './constants';
+import {
+  InvalidOperationError,
+  InvalidConstructorCallError,
+  UnexpectedError,
+} from './errors';
+import {
+  CountdownTimerConfig,
+  TimerEventHandler,
+  TimerEventType,
+  TimerInfo,
+  TimerState,
+} from './types';
 import { accurateSetInterval } from './utils';
-
-type TimerState = 'idle' | 'running' | 'paused' | 'finished' | 'destroyed';
-type TimerEventType = 'start' | 'pause' | 'finish' | 'destroy' | 'tick';
-type TimerInfo = {
-  currentSeconds: number;
-  state: TimerState;
-};
-type TimerEvent = {
-  eventType: TimerEventType;
-  timerInfo: TimerInfo;
-};
-type TimerEventHandler = (event: TimerEvent) => void;
-type CountdownTimerConfig = {
-  eventHandler?: TimerEventHandler;
-  startingSeconds: number;
-};
 
 export interface CountdownTimer {
   startTimer: () => void;
@@ -35,7 +31,9 @@ export class CountdownTimerImpl implements CountdownTimer {
     const { eventHandler, startingSeconds } = config;
 
     if (startingSeconds < 1) {
-      throw new Error('Starting seconds should be a positive number');
+      throw new InvalidConstructorCallError(
+        'Starting seconds should be a positive number'
+      );
     }
 
     this.eventHandler = eventHandler;
@@ -45,7 +43,7 @@ export class CountdownTimerImpl implements CountdownTimer {
 
   private fireEvent(eventType: TimerEventType) {
     if (!this.eventHandler) {
-      throw new Error('No event handler is set');
+      return;
     }
     this.eventHandler({
       eventType: eventType,
@@ -67,7 +65,7 @@ export class CountdownTimerImpl implements CountdownTimer {
 
   private guardDestroyed() {
     if (this.state === 'destroyed') {
-      throw new Error('Cannot use a destroyed timer');
+      throw new InvalidOperationError('Cannot use a destroyed timer');
     }
   }
 
@@ -79,7 +77,7 @@ export class CountdownTimerImpl implements CountdownTimer {
   startTimer() {
     this.guardDestroyed();
     if (this.currentSeconds <= 0) {
-      throw new Error('Cannot start a finished timer');
+      throw new InvalidOperationError('Cannot start a finished timer');
     }
 
     this.updateState('running', 'start');
@@ -99,7 +97,7 @@ export class CountdownTimerImpl implements CountdownTimer {
       return;
     }
     if (!this.clearTimer) {
-      throw new Error(
+      throw new UnexpectedError(
         'Unexpected error occured while pausing a timer. Timer may not exist!'
       );
     }
