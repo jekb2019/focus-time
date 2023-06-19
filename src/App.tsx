@@ -1,22 +1,51 @@
-import { useCallback, useRef, useState } from 'react';
-import { accurateSetInterval } from './service/timer/utils';
+import { useEffect, useState } from 'react';
+import {
+  CountdownTimer,
+  CountdownTimerImpl,
+} from './service/timer/CountdownTimer';
+
+const startingSeconds = 5;
+const countdownTimer: CountdownTimer = new CountdownTimerImpl({
+  startingSeconds,
+  eventHandler: () => {},
+});
 
 function App() {
-  const [count, setCount] = useState(0);
-  const stop = useRef(() => {});
+  const [count, setCount] = useState(startingSeconds);
+
+  useEffect(() => {
+    countdownTimer.setEventHandler((event) => {
+      const { eventType, timerInfo } = event;
+      const { currentSeconds } = timerInfo;
+      setCount(currentSeconds);
+    });
+  }, []);
 
   const start = () => {
-    stop.current = accurateSetInterval(
-      () => setCount((prev) => prev + 1),
-      1000
-    );
+    countdownTimer.startTimer();
+  };
+
+  const pause = () => {
+    countdownTimer.pauseTimer();
+  };
+
+  const printInfo = () => {
+    const info = countdownTimer.getTimerInfo();
+    console.log(info);
+  };
+
+  const destroy = () => {
+    countdownTimer.destroyTimer();
   };
 
   return (
     <div>
       <button onClick={start}>Start</button>
-      <span>{count}</span>
-      <button onClick={stop.current}>Stop</button>
+      <button onClick={pause}>Pause</button>
+      <button onClick={destroy}>Destroy</button>
+      <button onClick={printInfo}>Get Info</button>
+      <br />
+      <h1>{count}</h1>
     </div>
   );
 }

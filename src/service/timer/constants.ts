@@ -1,0 +1,1 @@
+export const ONE_SECOND_INTERVAL = 1000;
