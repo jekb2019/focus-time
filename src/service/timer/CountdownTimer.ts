@@ -117,6 +117,7 @@ export class CountdownTimerImpl implements CountdownTimer {
     if (this.clearTimer) {
       this.clearTimer();
     }
+    this.currentSeconds = 0;
     this.updateState('destroyed', 'destroy');
     this.eventHandler = undefined;
   }

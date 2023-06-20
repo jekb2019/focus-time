@@ -17,6 +17,7 @@ function App() {
     countdownTimer.setEventHandler((event) => {
       const { eventType, timerInfo } = event;
       const { currentSeconds } = timerInfo;
+      console.log(event);
       setCount(currentSeconds);
     });
   }, []);
