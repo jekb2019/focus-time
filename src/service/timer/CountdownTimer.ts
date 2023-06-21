@@ -18,14 +18,13 @@ export interface CountdownTimer {
   pauseTimer: () => void;
   getTimerInfo: () => TimerInfo;
   destroyTimer: () => void;
-  setEventHandler: (eventHandler: TimerEventHandler) => void;
 }
 
 export class CountdownTimerImpl implements CountdownTimer {
   private currentSeconds: number;
   private state: TimerState;
   private clearTimer: null | (() => void) = null;
-  private eventHandler?: TimerEventHandler;
+  private eventHandler: TimerEventHandler;
 
   constructor(config: CountdownTimerConfig) {
     const { eventHandler, startingSeconds } = config;
@@ -42,9 +41,6 @@ export class CountdownTimerImpl implements CountdownTimer {
   }
 
   private fireEvent(eventType: TimerEventType) {
-    if (!this.eventHandler) {
-      return;
-    }
     this.eventHandler({
       eventType: eventType,
       timerInfo: this.getTimerInfo(),
@@ -67,11 +63,6 @@ export class CountdownTimerImpl implements CountdownTimer {
     if (this.state === 'destroyed') {
       throw new InvalidOperationError('Cannot use a destroyed timer');
     }
-  }
-
-  setEventHandler(eventHandler: TimerEventHandler) {
-    this.guardDestroyed();
-    this.eventHandler = eventHandler;
   }
 
   startTimer() {
@@ -119,6 +110,5 @@ export class CountdownTimerImpl implements CountdownTimer {
     }
     this.currentSeconds = 0;
     this.updateState('destroyed', 'destroy');
-    this.eventHandler = undefined;
   }
 }

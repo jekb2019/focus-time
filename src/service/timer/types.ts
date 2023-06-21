@@ -20,6 +20,6 @@ type TimerEvent = {
 export type TimerEventHandler = (event: TimerEvent) => void;
 
 export type CountdownTimerConfig = {
-  eventHandler?: TimerEventHandler;
+  eventHandler: TimerEventHandler;
   startingSeconds: number;
 };
