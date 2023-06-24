@@ -21,12 +21,18 @@ const PomoTest = () => {
   const [autoStart, setAutoStart] = useState(
     () => pomoTimer.getInfo().autoStart
   );
+  const [info, setInfo] = useState(() => {
+    const { pomodoro, shortBreak, longBreak } = pomoTimer.getInfo();
+    return { pomodoro, shortBreak, longBreak };
+  });
 
   useEffect(() => {
     pomoTimer.setEventHandler((event) => {
-      const { currentSeconds, currentState } = event.timerInfo;
+      const { currentSeconds, currentState, pomodoro, shortBreak, longBreak } =
+        event.timerInfo;
       setSeconds(currentSeconds);
       setState(currentState);
+      setInfo({ pomodoro, shortBreak, longBreak });
     });
   }, []);
 
@@ -40,7 +46,12 @@ const PomoTest = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.label}>Pomo Test</h1>
+      <h1 className={styles.label}>Pomodoro Timer</h1>
+      <div className={styles['timer-info']}>
+        <p>Pomodoro: {info.pomodoro}</p>
+        <p>Short Break: {info.shortBreak}</p>
+        <p>Long Break: {info.longBreak}</p>
+      </div>
       <div className={styles.states}>
         <button
           className={state === 'pomodoro' ? styles['state-active'] : undefined}
@@ -66,31 +77,34 @@ const PomoTest = () => {
         </button>
       </div>
 
-      <button
-        onClick={() => {
-          pomoTimer.startTimer();
-        }}
-      >
-        Start
-      </button>
-      <button
-        onClick={() => {
-          pomoTimer.pauseTimer();
-        }}
-      >
-        Pause
-      </button>
-      <button onClick={() => pomoTimer.resetTimer()}>Reset</button>
-      <button onClick={() => console.log(pomoTimer.getInfo())}>Info</button>
-      <br />
-      <label>
-        Auto Start
+      <div className={styles.operations}>
+        <button
+          onClick={() => {
+            pomoTimer.startTimer();
+          }}
+        >
+          Start
+        </button>
+        <button
+          onClick={() => {
+            pomoTimer.pauseTimer();
+          }}
+        >
+          Pause
+        </button>
+        <button onClick={() => pomoTimer.resetTimer()}>Reset</button>
+        <button onClick={() => console.log(pomoTimer.getInfo())}>Info</button>
+      </div>
+
+      <div className={styles['auto-start']}>
+        <label htmlFor="auto-start">Auto Start</label>
         <input
+          id="auto-start"
           type="checkbox"
           checked={autoStart}
           onChange={(e) => setAutoStart(e.target.checked)}
         />
-      </label>
+      </div>
       <h1>{seconds}</h1>
     </div>
   );

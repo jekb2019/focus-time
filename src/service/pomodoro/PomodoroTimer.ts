@@ -1,5 +1,4 @@
 import { CountdownTimer, CountdownTimerImpl } from '../timer/CountdownTimer';
-import { TimerEventType } from '../timer/types';
 import {
   PomoConfig,
   PomoEvent,

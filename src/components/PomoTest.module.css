@@ -5,6 +5,14 @@
 
 .label {
   font-size: 2em;
+  margin-bottom: 5px;
+}
+
+.timer-info {
+  border: 1px solid black;
+  padding: 5px 10px;
+  font-size: 0.8em;
+  margin-bottom: 5px;
 }
 
 .states {
@@ -24,4 +32,31 @@
 
 .state-active {
   color: blue;
+}
+
+.operations {
+  display: flex;
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.operations button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 3px 5px;
+  border: 3px;
+  cursor: pointer;
+}
+
+.operations button:hover {
+  background-color: gray;
+}
+
+.auto-start {
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
