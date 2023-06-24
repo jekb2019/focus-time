@@ -1,7 +1,7 @@
 import { CountdownTimer, CountdownTimerImpl } from '../timer/CountdownTimer';
-import { TimerEventHandler, TimerEventType } from '../timer/types';
+import { TimerEventType } from '../timer/types';
 
-type PomoState = 'pomodoro' | 'short-break' | 'long-break';
+export type PomoState = 'pomodoro' | 'short-break' | 'long-break';
 type PomoEventType = 'state-change' | TimerEventType;
 type PomoEvent = {
   type: PomoEventType;
@@ -23,6 +23,7 @@ type PomoConfig = {
   shortBreak: number;
   longBreak: number;
   eventHandler?: PomoEventHandler;
+  autoStart?: boolean; // When timer finish, should next state timer auto start
 };
 
 // export interface PomodoroTimer {
@@ -50,14 +51,20 @@ export class PomodoroTimerImpl {
   private pomodoro: number;
   private shortBreak: number;
   private longBreak: number;
+  private autoStart: boolean = false;
 
   constructor(config: PomoConfig) {
-    const { pomodoro, shortBreak, longBreak } = config;
+    const { pomodoro, shortBreak, longBreak, autoStart } = config;
 
     this.pomodoro = pomodoro;
     this.shortBreak = shortBreak;
     this.longBreak = longBreak;
     this.currentSeconds = pomodoro;
+
+    if (autoStart) {
+      this.autoStart = autoStart;
+    }
+
     this.createTimer(pomodoro);
   }
 
@@ -72,6 +79,12 @@ export class PomodoroTimerImpl {
         const { eventType, timerInfo } = event;
         this.currentSeconds = timerInfo.currentSeconds;
         this.fireEvent(eventType);
+
+        if (eventType === 'finish') {
+          setTimeout(() => {
+            this.changeToNextPomoState();
+          }, 1000);
+        }
       },
     });
   }
@@ -120,12 +133,37 @@ export class PomodoroTimerImpl {
     } else if (this.currentState === 'long-break') {
       nextState = 'pomodoro';
     }
-    this.changePomoState(nextState);
+    this.changePomoState(nextState, this.autoStart);
   }
 
-  changePomoState(state: PomoState) {
+  changePomoState(state: PomoState, shouldAutoStart?: boolean) {
+    if (this.currentState === state) {
+      return;
+    }
+
     this.currentState = state;
+
+    let startingSeconds;
+    switch (state) {
+      case 'pomodoro':
+        startingSeconds = this.pomodoro;
+        break;
+      case 'long-break':
+        startingSeconds = this.longBreak;
+        break;
+      case 'short-break':
+        startingSeconds = this.shortBreak;
+        break;
+      default:
+        throw new Error('Unkown Pomo State');
+    }
+
     this.fireEvent('state-change');
+    this.createTimer(startingSeconds);
+
+    if (shouldAutoStart) {
+      this.startTimer();
+    }
   }
 
   setPomodoro(seconds: number) {
@@ -138,6 +176,10 @@ export class PomodoroTimerImpl {
 
   setLongBreak(seconds: number) {
     this.longBreak = seconds;
+  }
+
+  setAutoStart(shouldAutoStart: boolean) {
+    this.autoStart = shouldAutoStart;
   }
 
   getInfo() {

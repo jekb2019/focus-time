@@ -1,0 +1,27 @@
+.container {
+  border: 2px solid purple;
+  padding: 10px;
+}
+
+.label {
+  font-size: 2em;
+}
+
+.states {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.states button {
+  background-color: transparent;
+  outline: none;
+  padding: 1px 3px;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.state-active {
+  color: blue;
+}
