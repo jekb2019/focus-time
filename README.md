@@ -38,3 +38,4 @@ pomodoro-short-pomodoro-short-pomodoro-short-pomodoro-long
 # Todo
 
 - Implement Setting pomodoro & short break & long break (Make the "Set" buttons in PomoTest.jsx)
+- Am I gonna leave this repo public? - IDK
