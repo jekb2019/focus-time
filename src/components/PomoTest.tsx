@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
 import {
-  PomoState,
+  PomodoroTimer,
   PomodoroTimerImpl,
 } from '../service/pomodoro/PomodoroTimer';
 import styles from './PomoTest.module.css';
+import { PomoState } from '../service/pomodoro/types';
 
-const pomodoro = 5;
-const shortBreak = 2;
-const longBreak = 3;
-
-const pomoTimer = new PomodoroTimerImpl({
-  pomodoro,
-  shortBreak,
-  longBreak,
+const pomoTimer: PomodoroTimer = new PomodoroTimerImpl({
+  pomodoro: 5,
+  shortBreak: 2,
+  longBreak: 3,
   autoStart: false,
 });
 
@@ -21,6 +18,9 @@ const PomoTest = () => {
     () => pomoTimer.getInfo().currentSeconds
   );
   const [state, setState] = useState(() => pomoTimer.getInfo().currentState);
+  const [autoStart, setAutoStart] = useState(
+    () => pomoTimer.getInfo().autoStart
+  );
 
   useEffect(() => {
     pomoTimer.setEventHandler((event) => {
@@ -29,6 +29,10 @@ const PomoTest = () => {
       setState(currentState);
     });
   }, []);
+
+  useEffect(() => {
+    pomoTimer.setAutoStart(autoStart);
+  }, [autoStart]);
 
   const handleStateButtonClick = (state: PomoState) => {
     pomoTimer.changePomoState(state);
@@ -83,10 +87,8 @@ const PomoTest = () => {
         Auto Start
         <input
           type="checkbox"
-          onChange={(e) => {
-            const shouldAutoStart = e.target.checked;
-            pomoTimer.setAutoStart(shouldAutoStart);
-          }}
+          checked={autoStart}
+          onChange={(e) => setAutoStart(e.target.checked)}
         />
       </label>
       <h1>{seconds}</h1>

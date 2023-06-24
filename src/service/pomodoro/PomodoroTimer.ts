@@ -1,56 +1,42 @@
 import { CountdownTimer, CountdownTimerImpl } from '../timer/CountdownTimer';
 import { TimerEventType } from '../timer/types';
+import {
+  PomoConfig,
+  PomoEvent,
+  PomoEventHandler,
+  PomoEventType,
+  PomoState,
+  PomoTimerInfo,
+} from './types';
 
-export type PomoState = 'pomodoro' | 'short-break' | 'long-break';
-type PomoEventType = 'state-change' | TimerEventType;
-type PomoEvent = {
-  type: PomoEventType;
-  timerInfo: PomoTimerInfo;
-};
-type PomoTimerInfo = {
-  currentSeconds: number;
-  currentState: PomoState;
-  currentRound: number;
-  pomodoro: number;
-  shortBreak: number;
-  longBreak: number;
-  eventHandler?: PomoEventHandler;
-};
-type PomoEventHandler = (event: PomoEvent) => void;
+export interface PomodoroTimer {
+  startTimer(): void;
+  pauseTimer(): void;
+  resetTimer(): void;
+  changeToNextPomoState(state: PomoState, shouldAutoStart?: boolean): void;
+  changePomoState(state: PomoState, shouldAutoStart?: boolean): void;
+  setPomodoro(seconds: number): void;
+  setShortBreak(seconds: number): void;
+  setLongBreak(seconds: number): void;
+  setEventHandler(eventHandler: (event: PomoEvent) => void): void;
+  setAutoStart(shouldAutoStart: boolean): void;
+  getInfo(): PomoTimerInfo;
+}
 
-type PomoConfig = {
-  pomodoro: number;
-  shortBreak: number;
-  longBreak: number;
-  eventHandler?: PomoEventHandler;
-  autoStart?: boolean; // When timer finish, should next state timer auto start
-};
-
-// export interface PomodoroTimer {
-//   startTimer: () => void;
-//   pauseTimer: () => void;
-//   resetTimer: () => void;
-//   changePomoState: (pomoState: PomoState) => void;
-//   changeToNextPomoState: () => void;
-//   changeToPreviousPomoState: () => void;
-//   setPomodoro: (seconds: number) => void;
-//   setShortBreak: (seconds: number) => void;
-//   setLongBreak: (seconds: number) => void;
-//   getInfo: () => PomoTimerInfo;
-// }
-
-export class PomodoroTimerImpl {
-  // Util
+export class PomodoroTimerImpl implements PomodoroTimer {
+  // Internal
   private countdownTimer: CountdownTimer | null = null;
+
+  // Settings
+  private pomodoro: number;
+  private shortBreak: number;
+  private longBreak: number;
   private eventHandler?: PomoEventHandler;
 
   // States
   private currentSeconds: number;
   private currentState: PomoState = 'pomodoro';
   private currentRound: number = 1;
-  private pomodoro: number;
-  private shortBreak: number;
-  private longBreak: number;
   private autoStart: boolean = false;
 
   constructor(config: PomoConfig) {
@@ -100,15 +86,13 @@ export class PomodoroTimerImpl {
     }
   }
 
-  setEventHandler(eventHandler: (event: PomoEvent) => void) {
-    this.eventHandler = eventHandler;
-  }
-
+  // Operations
   startTimer() {
     if (this.countdownTimer) {
       this.countdownTimer.startTimer();
     }
   }
+
   pauseTimer() {
     if (this.countdownTimer) {
       this.countdownTimer.pauseTimer();
@@ -166,6 +150,7 @@ export class PomodoroTimerImpl {
     }
   }
 
+  // Setters
   setPomodoro(seconds: number) {
     this.pomodoro = seconds;
   }
@@ -178,11 +163,15 @@ export class PomodoroTimerImpl {
     this.longBreak = seconds;
   }
 
+  setEventHandler(eventHandler: (event: PomoEvent) => void) {
+    this.eventHandler = eventHandler;
+  }
+
   setAutoStart(shouldAutoStart: boolean) {
     this.autoStart = shouldAutoStart;
   }
 
-  getInfo() {
+  getInfo(): PomoTimerInfo {
     return {
       currentSeconds: this.currentSeconds,
       currentState: this.currentState,
@@ -190,6 +179,7 @@ export class PomodoroTimerImpl {
       pomodoro: this.pomodoro,
       shortBreak: this.shortBreak,
       longBreak: this.longBreak,
+      autoStart: this.autoStart,
       eventHandler: this.eventHandler,
     };
   }
