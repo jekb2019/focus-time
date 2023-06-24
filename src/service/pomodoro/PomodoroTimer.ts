@@ -36,7 +36,6 @@ export class PomodoroTimerImpl implements PomodoroTimer {
   // States
   private currentSeconds: number;
   private currentState: PomoState = 'pomodoro';
-  private currentRound: number = 1;
   private autoStart: boolean = false;
 
   constructor(config: PomoConfig) {
@@ -178,7 +177,6 @@ export class PomodoroTimerImpl implements PomodoroTimer {
     return {
       currentSeconds: this.currentSeconds,
       currentState: this.currentState,
-      currentRound: this.currentRound,
       pomodoro: this.pomodoro,
       shortBreak: this.shortBreak,
       longBreak: this.longBreak,

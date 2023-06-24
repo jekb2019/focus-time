@@ -12,7 +12,6 @@ export type PomoEvent = {
 export type PomoTimerInfo = {
   currentSeconds: number;
   currentState: PomoState;
-  currentRound: number;
   pomodoro: number;
   shortBreak: number;
   longBreak: number;
