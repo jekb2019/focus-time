@@ -1,4 +1,5 @@
 import { CountdownTimer, CountdownTimerImpl } from '../timer/CountdownTimer';
+import { InvalidPomoStateError } from './errors';
 import {
   PomoConfig,
   PomoEvent,
@@ -39,7 +40,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
   private autoStart: boolean = false;
 
   constructor(config: PomoConfig) {
-    const { pomodoro, shortBreak, longBreak, autoStart } = config;
+    const { pomodoro, shortBreak, longBreak, autoStart, eventHandler } = config;
 
     this.pomodoro = pomodoro;
     this.shortBreak = shortBreak;
@@ -48,6 +49,10 @@ export class PomodoroTimerImpl implements PomodoroTimer {
 
     if (autoStart) {
       this.autoStart = autoStart;
+    }
+
+    if (eventHandler) {
+      this.eventHandler = eventHandler;
     }
 
     this.createTimer(pomodoro);
@@ -79,7 +84,6 @@ export class PomodoroTimerImpl implements PomodoroTimer {
       type: eventType,
       timerInfo: this.getInfo(),
     };
-    console.log(pomoEvent);
     if (this.eventHandler) {
       this.eventHandler(pomoEvent);
     }
@@ -138,7 +142,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
         startingSeconds = this.shortBreak;
         break;
       default:
-        throw new Error('Unkown Pomo State');
+        throw new InvalidPomoStateError(`${state} is not a valid PomoState`);
     }
 
     this.fireEvent('state-change');

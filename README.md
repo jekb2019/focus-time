@@ -34,3 +34,7 @@ pomodoro-short-pomodoro-short-pomodoro-short-pomodoro-long
 - set short break time (default 5 mins)
 - set long break time (default 30 mins)
 - soft lock long break until 4 pomodoro
+
+# Todo
+
+- Implement Setting pomodoro & short break & long break (Make the "Set" buttons in PomoTest.jsx)

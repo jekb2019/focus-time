@@ -6,11 +6,16 @@ import {
 import styles from './PomoTest.module.css';
 import { PomoState } from '../service/pomodoro/types';
 
+const pomodoro = 5;
+const shortBreak = 2;
+const longBreak = 3;
+
 const pomoTimer: PomodoroTimer = new PomodoroTimerImpl({
-  pomodoro: 5,
-  shortBreak: 2,
-  longBreak: 3,
+  pomodoro,
+  shortBreak,
+  longBreak,
   autoStart: false,
+  eventHandler: console.log,
 });
 
 const PomoTest = () => {
@@ -25,9 +30,13 @@ const PomoTest = () => {
     const { pomodoro, shortBreak, longBreak } = pomoTimer.getInfo();
     return { pomodoro, shortBreak, longBreak };
   });
+  const [pomodoroInput, setPomodoroInput] = useState(pomodoro);
+  const [shortBreakInput, setShortBreakInput] = useState(shortBreak);
+  const [longBreakInput, setLongBreakInput] = useState(longBreak);
 
   useEffect(() => {
     pomoTimer.setEventHandler((event) => {
+      console.log(event);
       const { currentSeconds, currentState, pomodoro, shortBreak, longBreak } =
         event.timerInfo;
       setSeconds(currentSeconds);
@@ -44,13 +53,63 @@ const PomoTest = () => {
     pomoTimer.changePomoState(state);
   };
 
+  const handleTimeValueUpdate = (state: PomoState) => {
+    switch (state) {
+      case 'pomodoro':
+        console.log('setting pomodoro to ', pomodoroInput);
+        break;
+      case 'short-break':
+        console.log('setting short break to ', shortBreakInput);
+        break;
+      case 'long-break':
+        console.log('setting long break to ', longBreakInput);
+        break;
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.label}>Pomodoro Timer</h1>
       <div className={styles['timer-info']}>
-        <p>Pomodoro: {info.pomodoro}</p>
-        <p>Short Break: {info.shortBreak}</p>
-        <p>Long Break: {info.longBreak}</p>
+        <div className={styles['timer-value']}>
+          <span>Pomodoro: {info.pomodoro}</span>
+          <div className={styles['seconds-setter']}>
+            <input
+              value={pomodoroInput}
+              onChange={(e) => setPomodoroInput(Number(e.target.value))}
+              type="number"
+            />
+            <button onClick={() => handleTimeValueUpdate('pomodoro')}>
+              Set
+            </button>
+          </div>
+        </div>
+        <div className={styles['timer-value']}>
+          <span>Short Break: {info.shortBreak}</span>
+          <div className={styles['seconds-setter']}>
+            <input
+              value={shortBreakInput}
+              onChange={(e) => setShortBreakInput(Number(e.target.value))}
+              type="number"
+            />
+            <button onClick={() => handleTimeValueUpdate('short-break')}>
+              Set
+            </button>
+          </div>
+        </div>
+        <div className={styles['timer-value']}>
+          <span>Long Break: {info.longBreak}</span>
+          <div className={styles['seconds-setter']}>
+            <input
+              value={longBreakInput}
+              onChange={(e) => setLongBreakInput(Number(e.target.value))}
+              type="number"
+            />
+            <button onClick={() => handleTimeValueUpdate('long-break')}>
+              Set
+            </button>
+          </div>
+        </div>
       </div>
       <div className={styles.states}>
         <button

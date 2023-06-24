@@ -15,6 +15,20 @@
   margin-bottom: 5px;
 }
 
+.timer-value {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.seconds-setter input {
+  width: 50px;
+}
+
+.seconds-setter button {
+  cursor: pointer;
+}
+
 .states {
   display: flex;
   gap: 5px;
