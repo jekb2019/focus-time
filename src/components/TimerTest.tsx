@@ -18,7 +18,6 @@ const TimerTest = () => {
       eventHandler: (event) => {
         const { eventType, timerInfo } = event;
         const { currentSeconds } = timerInfo;
-        console.log(event);
         setCount(currentSeconds);
       },
     });
@@ -32,7 +31,6 @@ const TimerTest = () => {
   };
 
   const pause = () => {
-    console.log(countdownTimer);
     if (countdownTimer) {
       countdownTimer.pauseTimer();
     }

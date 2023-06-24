@@ -38,6 +38,7 @@ export class CountdownTimerImpl implements CountdownTimer {
     this.eventHandler = eventHandler;
     this.currentSeconds = startingSeconds;
     this.state = 'idle';
+    this.fireEvent('create');
   }
 
   private fireEvent(eventType: TimerEventType) {
@@ -108,7 +109,6 @@ export class CountdownTimerImpl implements CountdownTimer {
     if (this.clearTimer) {
       this.clearTimer();
     }
-    this.currentSeconds = 0;
     this.updateState('destroyed', 'destroy');
   }
 }

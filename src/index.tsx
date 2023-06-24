@@ -3,19 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {
-  CountdownTimer,
-  CountdownTimerImpl,
-} from './service/timer/CountdownTimer';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-
-const countdownTimer: CountdownTimer = new CountdownTimerImpl({
-  startingSeconds: 10,
-  eventHandler: console.log,
-});
 
 root.render(
   <React.StrictMode>

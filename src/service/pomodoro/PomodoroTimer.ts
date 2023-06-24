@@ -2,7 +2,7 @@ import { CountdownTimer, CountdownTimerImpl } from '../timer/CountdownTimer';
 import { TimerEventHandler, TimerEventType } from '../timer/types';
 
 type PomoState = 'pomodoro' | 'short-break' | 'long-break';
-type PomoEventType = 'pomo-state-update' | TimerEventType;
+type PomoEventType = 'state-change' | TimerEventType;
 type PomoEvent = {
   type: PomoEventType;
   timerInfo: PomoTimerInfo;
@@ -40,7 +40,7 @@ type PomoConfig = {
 
 export class PomodoroTimerImpl {
   // Util
-  private countdownTimer: CountdownTimer;
+  private countdownTimer: CountdownTimer | null = null;
   private eventHandler?: PomoEventHandler;
 
   // States
@@ -62,22 +62,29 @@ export class PomodoroTimerImpl {
   }
 
   private createTimer(startingSeconds: number) {
+    if (this.countdownTimer) {
+      this.countdownTimer.destroyTimer();
+    }
+
     this.countdownTimer = new CountdownTimerImpl({
       startingSeconds,
       eventHandler: (event) => {
         const { eventType, timerInfo } = event;
         this.currentSeconds = timerInfo.currentSeconds;
-        const pomoEvent = {
-          type: eventType,
-          timerInfo: this.getInfo(),
-        };
-
-        console.log(pomoEvent);
-        if (this.eventHandler) {
-          this.eventHandler(pomoEvent);
-        }
+        this.fireEvent(eventType);
       },
     });
+  }
+
+  private fireEvent(eventType: PomoEventType) {
+    const pomoEvent = {
+      type: eventType,
+      timerInfo: this.getInfo(),
+    };
+    console.log(pomoEvent);
+    if (this.eventHandler) {
+      this.eventHandler(pomoEvent);
+    }
   }
 
   setEventHandler(eventHandler: (event: PomoEvent) => void) {
@@ -85,20 +92,53 @@ export class PomodoroTimerImpl {
   }
 
   startTimer() {
-    this.countdownTimer.startTimer();
+    if (this.countdownTimer) {
+      this.countdownTimer.startTimer();
+    }
   }
   pauseTimer() {
-    this.countdownTimer.pauseTimer();
+    if (this.countdownTimer) {
+      this.countdownTimer.pauseTimer();
+    }
   }
 
-  resetTimer() {}
+  resetTimer() {
+    let resetSeconds = this.pomodoro;
+    if (this.currentState === 'short-break') {
+      resetSeconds = this.shortBreak;
+    } else if (this.currentState === 'long-break') {
+      resetSeconds = this.longBreak;
+    }
 
-  changePomoState() {}
-  changeToNextPomoState() {}
-  changeToPreviousPomoState() {}
-  setPomodoro(seconds: number) {}
-  setShortBreak(seconds: number) {}
-  setLongBreak(seconds: number) {}
+    this.createTimer(resetSeconds);
+  }
+
+  changeToNextPomoState() {
+    let nextState: PomoState = 'short-break';
+    if (this.currentState === 'short-break') {
+      nextState = 'long-break';
+    } else if (this.currentState === 'long-break') {
+      nextState = 'pomodoro';
+    }
+    this.changePomoState(nextState);
+  }
+
+  changePomoState(state: PomoState) {
+    this.currentState = state;
+    this.fireEvent('state-change');
+  }
+
+  setPomodoro(seconds: number) {
+    this.pomodoro = seconds;
+  }
+
+  setShortBreak(seconds: number) {
+    this.shortBreak = seconds;
+  }
+
+  setLongBreak(seconds: number) {
+    this.longBreak = seconds;
+  }
 
   getInfo() {
     return {

@@ -5,7 +5,13 @@ export type TimerState =
   | 'finished'
   | 'destroyed';
 
-export type TimerEventType = 'start' | 'pause' | 'finish' | 'destroy' | 'tick';
+export type TimerEventType =
+  | 'create'
+  | 'start'
+  | 'pause'
+  | 'finish'
+  | 'destroy'
+  | 'tick';
 
 export type TimerInfo = {
   currentSeconds: number;
