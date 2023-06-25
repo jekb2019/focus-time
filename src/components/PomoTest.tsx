@@ -83,7 +83,7 @@ const PomoTest = () => {
     pomoTimer.changeToTargetPomoState(state);
   };
 
-  const handleTimeValueUpdate = (state: PomoState) => {
+  const handleTimeValueUpdate = (state: PomoState | 'all') => {
     switch (state) {
       case 'pomodoro':
         pomoTimer.setPomodoro(pomodoroInput);
@@ -93,6 +93,13 @@ const PomoTest = () => {
         break;
       case 'long-break':
         pomoTimer.setLongBreak(longBreakInput);
+        break;
+      case 'all':
+        pomoTimer.setTimeValues({
+          pomodoro: pomodoroInput,
+          shortBreak: shortBreakInput,
+          longBreak: longBreakInput,
+        });
         break;
     }
   };
@@ -126,6 +133,7 @@ const PomoTest = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.label}>Pomodoro Timer</h1>
+      <p className={styles['timer-state']}>Timer is {timerState}</p>
       <div className={styles.flow}>
         <button onClick={() => handleChangePomoState('previous')}>Prev</button>
         {pomoFlowInfo.pomoFlow.map((state, idx) => (
@@ -139,7 +147,6 @@ const PomoTest = () => {
         <button onClick={() => handleChangePomoState('next')}>Next</button>
       </div>
       <div className={styles['timer-info']}>
-        <p>Timer state: {timerState}</p>
         <div className={styles['timer-value']}>
           <span>Pomodoro: {info.pomodoro}</span>
           <div className={styles['seconds-setter']}>
@@ -179,17 +186,34 @@ const PomoTest = () => {
             </button>
           </div>
         </div>
-      </div>
-      <div className={styles.states}>
         <button
-          className={state === 'pomodoro' ? styles['state-active'] : undefined}
+          className={styles['set-at-once-button']}
+          onClick={() => handleTimeValueUpdate('all')}
+        >
+          Set at once
+        </button>
+        <div className={styles['auto-start']}>
+          <label htmlFor="auto-start">Auto Start</label>
+          <input
+            id="auto-start"
+            type="checkbox"
+            checked={autoStart}
+            onChange={(e) => setAutoStart(e.target.checked)}
+          />
+        </div>
+      </div>
+      <div className={styles['pomo-states']}>
+        <button
+          className={
+            state === 'pomodoro' ? styles['pomo-state-active'] : undefined
+          }
           onClick={() => handleStateButtonClick('pomodoro')}
         >
           Pomodoro
         </button>
         <button
           className={
-            state === 'short-break' ? styles['state-active'] : undefined
+            state === 'short-break' ? styles['pomo-state-active'] : undefined
           }
           onClick={() => handleStateButtonClick('short-break')}
         >
@@ -197,7 +221,7 @@ const PomoTest = () => {
         </button>
         <button
           className={
-            state === 'long-break' ? styles['state-active'] : undefined
+            state === 'long-break' ? styles['pomo-state-active'] : undefined
           }
           onClick={() => handleStateButtonClick('long-break')}
         >
@@ -222,16 +246,6 @@ const PomoTest = () => {
         </button>
         <button onClick={() => pomoTimer.resetTimer()}>Reset</button>
         <button onClick={() => console.log(pomoTimer.getInfo())}>Info</button>
-      </div>
-
-      <div className={styles['auto-start']}>
-        <label htmlFor="auto-start">Auto Start</label>
-        <input
-          id="auto-start"
-          type="checkbox"
-          checked={autoStart}
-          onChange={(e) => setAutoStart(e.target.checked)}
-        />
       </div>
       <h1>{timeString}</h1>
     </div>

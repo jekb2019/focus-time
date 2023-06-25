@@ -7,7 +7,8 @@ export type PomoEventType =
   | 'state-change'
   | 'pomodoro-change'
   | 'short-break-change'
-  | 'long-break-change';
+  | 'long-break-change'
+  | 'time-setting-change';
 
 export type PomoEvent = {
   type: PomoEventType;

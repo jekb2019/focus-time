@@ -1,7 +1,7 @@
 import { findClosestAndBiggerNumber } from '../../utils/array';
 import { CountdownTimer, CountdownTimerImpl } from '../timer/CountdownTimer';
 import { TimerState } from '../timer/types';
-import { InvalidPomoStateError } from './errors';
+import { InvalidPomoStateError, InvalidTimeValueSettingError } from './errors';
 import {
   PomoConfig,
   PomoEvent,
@@ -18,6 +18,11 @@ export interface PomodoroTimer {
   changeToNextPomoState(): void;
   changeToPreviousPomoState(): void;
   changeToTargetPomoState(state: PomoState): void;
+  setTimeValues(setting: {
+    pomodoro?: number;
+    shortBreak?: number;
+    longBreak?: number;
+  }): void;
   setPomodoro(seconds: number): void;
   setShortBreak(seconds: number): void;
   setLongBreak(seconds: number): void;
@@ -153,6 +158,14 @@ export class PomodoroTimerImpl implements PomodoroTimer {
     }
   }
 
+  private guardTimeSetting(seconds: number) {
+    if (seconds <= 0) {
+      throw new InvalidTimeValueSettingError(
+        'Time value must be greater than 0 seconds'
+      );
+    }
+  }
+
   // Operations
   startTimer() {
     if (this.countdownTimer) {
@@ -213,7 +226,20 @@ export class PomodoroTimerImpl implements PomodoroTimer {
   }
 
   // Setters
+  setTimeValues(setting: {
+    pomodoro?: number;
+    shortBreak?: number;
+    longBreak?: number;
+  }) {
+    const { pomodoro, shortBreak, longBreak } = setting;
+    console.log(setting);
+    // pomodoro !== undefined && this.setPomodoro(pomodoro, false, false);
+    // shortBreak !== undefined && this.setShortBreak(shortBreak, false, false);
+    // longBreak !== undefined && this.setLongBreak(longBreak, false, false);
+  }
+
   setPomodoro(seconds: number) {
+    this.guardTimeSetting(seconds);
     if (seconds === this.pomodoro) {
       return;
     }
@@ -225,6 +251,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
   }
 
   setShortBreak(seconds: number) {
+    this.guardTimeSetting(seconds);
     if (seconds === this.shortBreak) {
       return;
     }
@@ -236,6 +263,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
   }
 
   setLongBreak(seconds: number) {
+    this.guardTimeSetting(seconds);
     if (seconds === this.longBreak) {
       return;
     }

@@ -8,6 +8,11 @@
   margin-bottom: 5px;
 }
 
+.timer-state {
+  margin-bottom: 5px;
+  font-size: 0.9em;
+}
+
 .flow {
   display: flex;
   gap: 5px;
@@ -33,6 +38,9 @@
   padding: 5px 10px;
   font-size: 0.8em;
   margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .timer-value {
@@ -43,19 +51,40 @@
 
 .seconds-setter input {
   width: 50px;
+  margin-right: 2px;
 }
 
 .seconds-setter button {
   cursor: pointer;
+  border: none;
+  background-color: pink;
+  padding: 2px 4px;
+  cursor: pointer;
+  border-radius: 2px;
 }
 
-.states {
+.set-at-once-button {
+  width: 100px;
+  border: none;
+  background-color: pink;
+  padding: 2px 4px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.auto-start {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pomo-states {
   display: flex;
   gap: 5px;
   margin-bottom: 10px;
 }
 
-.states button {
+.pomo-states button {
   background-color: transparent;
   outline: none;
   padding: 1px 3px;
@@ -64,7 +93,7 @@
   cursor: pointer;
 }
 
-.state-active {
+.pomo-state-active {
   color: blue;
 }
 
@@ -86,11 +115,4 @@
 
 .operations button:hover {
   background-color: gray;
-}
-
-.auto-start {
-  font-size: 0.9em;
-  display: flex;
-  align-items: center;
-  gap: 3px;
 }
