@@ -1,4 +1,5 @@
 import { CountdownTimer, CountdownTimerImpl } from '../timer/CountdownTimer';
+import { TimerState } from '../timer/types';
 import { InvalidPomoStateError } from './errors';
 import {
   PomoConfig,
@@ -36,6 +37,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
   // States
   private currentSeconds: number;
   private currentPomoState: PomoState = 'pomodoro';
+  private currentTimerState: TimerState | 'initialized' = 'initialized';
   private autoStart: boolean = false;
 
   constructor(config: PomoConfig) {
@@ -77,6 +79,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
       eventHandler: (event) => {
         const { eventType, timerInfo } = event;
         this.currentSeconds = timerInfo.currentSeconds;
+        this.currentTimerState = timerInfo.state;
         this.fireEvent(eventType);
 
         if (eventType === 'finish') {
@@ -203,9 +206,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
       longBreak: this.longBreak,
       autoStart: this.autoStart,
       eventHandler: this.eventHandler,
-      currentTimerState: this.countdownTimer
-        ? this.countdownTimer.getTimerInfo().state
-        : 'not-ready',
+      currentTimerState: this.currentTimerState,
     };
   }
 }

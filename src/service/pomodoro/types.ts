@@ -22,7 +22,7 @@ export type PomoTimerInfo = {
   longBreak: number;
   autoStart: boolean;
   eventHandler?: PomoEventHandler;
-  currentTimerState: TimerState | 'not-ready';
+  currentTimerState: TimerState | 'initialized';
 };
 
 export type PomoEventHandler = (event: PomoEvent) => void;

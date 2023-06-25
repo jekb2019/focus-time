@@ -5,7 +5,10 @@ import {
 } from '../service/pomodoro/PomodoroTimer';
 import styles from './PomoTest.module.css';
 import { PomoState } from '../service/pomodoro/types';
-import { convertSecondsToTimeValue } from '../utils/time';
+import {
+  convertSecondsToTimeValue,
+  convertTimeValueToString,
+} from '../utils/time';
 
 const pomodoro = 5;
 const shortBreak = 2;
@@ -33,12 +36,18 @@ const PomoTest = () => {
     const { pomodoro, shortBreak, longBreak } = pomoTimer.getInfo();
     return { pomodoro, shortBreak, longBreak };
   });
+  const [timerState, setTimterState] = useState(() => {
+    const { currentTimerState } = pomoTimer.getInfo();
+    return currentTimerState;
+  });
+
   const [pomodoroInput, setPomodoroInput] = useState(pomodoro);
   const [shortBreakInput, setShortBreakInput] = useState(shortBreak);
   const [longBreakInput, setLongBreakInput] = useState(longBreak);
 
-  const timeValue = useMemo(() => {
-    return convertSecondsToTimeValue(seconds);
+  const timeString = useMemo(() => {
+    const timeValue = convertSecondsToTimeValue(seconds);
+    return convertTimeValueToString(timeValue);
   }, [seconds]);
 
   useEffect(() => {
@@ -50,10 +59,12 @@ const PomoTest = () => {
         pomodoro,
         shortBreak,
         longBreak,
+        currentTimerState,
       } = event.timerInfo;
       setSeconds(currentSeconds);
       setState(currentPomoState);
       setInfo({ pomodoro, shortBreak, longBreak });
+      setTimterState(currentTimerState);
     });
   }, []);
 
@@ -83,6 +94,7 @@ const PomoTest = () => {
     <div className={styles.container}>
       <h1 className={styles.label}>Pomodoro Timer</h1>
       <div className={styles['timer-info']}>
+        <p>Timer state: {timerState}</p>
         <div className={styles['timer-value']}>
           <span>Pomodoro: {info.pomodoro}</span>
           <div className={styles['seconds-setter']}>
@@ -176,7 +188,7 @@ const PomoTest = () => {
           onChange={(e) => setAutoStart(e.target.checked)}
         />
       </div>
-      <h1>{seconds}</h1>
+      <h1>{timeString}</h1>
     </div>
   );
 };
