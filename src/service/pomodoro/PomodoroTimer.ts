@@ -35,7 +35,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
 
   // States
   private currentSeconds: number;
-  private currentState: PomoState = 'pomodoro';
+  private currentPomoState: PomoState = 'pomodoro';
   private autoStart: boolean = false;
 
   constructor(config: PomoConfig) {
@@ -103,9 +103,9 @@ export class PomodoroTimerImpl implements PomodoroTimer {
 
   resetTimer() {
     let resetSeconds = this.pomodoro;
-    if (this.currentState === 'short-break') {
+    if (this.currentPomoState === 'short-break') {
       resetSeconds = this.shortBreak;
-    } else if (this.currentState === 'long-break') {
+    } else if (this.currentPomoState === 'long-break') {
       resetSeconds = this.longBreak;
     }
 
@@ -114,20 +114,20 @@ export class PomodoroTimerImpl implements PomodoroTimer {
 
   changeToNextPomoState() {
     let nextState: PomoState = 'short-break';
-    if (this.currentState === 'short-break') {
+    if (this.currentPomoState === 'short-break') {
       nextState = 'long-break';
-    } else if (this.currentState === 'long-break') {
+    } else if (this.currentPomoState === 'long-break') {
       nextState = 'pomodoro';
     }
     this.changePomoState(nextState, this.autoStart);
   }
 
   changePomoState(state: PomoState, shouldAutoStart?: boolean) {
-    if (this.currentState === state) {
+    if (this.currentPomoState === state) {
       return;
     }
 
-    this.currentState = state;
+    this.currentPomoState = state;
 
     let startingSeconds;
     switch (state) {
@@ -158,7 +158,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
       return;
     }
     this.pomodoro = seconds;
-    if (this.currentState === 'pomodoro') {
+    if (this.currentPomoState === 'pomodoro') {
       this.createTimer(seconds);
     }
     this.fireEvent('pomodoro-change');
@@ -169,7 +169,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
       return;
     }
     this.shortBreak = seconds;
-    if (this.currentState === 'short-break') {
+    if (this.currentPomoState === 'short-break') {
       this.createTimer(seconds);
     }
     this.fireEvent('short-break-change');
@@ -180,7 +180,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
       return;
     }
     this.longBreak = seconds;
-    if (this.currentState === 'long-break') {
+    if (this.currentPomoState === 'long-break') {
       this.createTimer(seconds);
     }
     this.fireEvent('long-break-change');
@@ -197,12 +197,15 @@ export class PomodoroTimerImpl implements PomodoroTimer {
   getInfo(): PomoTimerInfo {
     return {
       currentSeconds: this.currentSeconds,
-      currentState: this.currentState,
+      currentPomoState: this.currentPomoState,
       pomodoro: this.pomodoro,
       shortBreak: this.shortBreak,
       longBreak: this.longBreak,
       autoStart: this.autoStart,
       eventHandler: this.eventHandler,
+      currentTimerState: this.countdownTimer
+        ? this.countdownTimer.getTimerInfo().state
+        : 'not-ready',
     };
   }
 }

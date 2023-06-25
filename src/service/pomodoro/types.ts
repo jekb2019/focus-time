@@ -1,4 +1,4 @@
-import { TimerEventType } from '../timer/types';
+import { TimerEventType, TimerState } from '../timer/types';
 
 export type PomoState = 'pomodoro' | 'short-break' | 'long-break';
 
@@ -16,12 +16,13 @@ export type PomoEvent = {
 
 export type PomoTimerInfo = {
   currentSeconds: number;
-  currentState: PomoState;
+  currentPomoState: PomoState;
   pomodoro: number;
   shortBreak: number;
   longBreak: number;
   autoStart: boolean;
   eventHandler?: PomoEventHandler;
+  currentTimerState: TimerState | 'not-ready';
 };
 
 export type PomoEventHandler = (event: PomoEvent) => void;

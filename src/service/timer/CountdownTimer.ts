@@ -56,7 +56,9 @@ export class CountdownTimerImpl implements CountdownTimer {
   }
 
   private handleTimerFinish() {
-    (this.clearTimer as () => void)();
+    if (this.clearTimer) {
+      this.clearTimer();
+    }
     this.updateState('finished', 'finish');
   }
 
@@ -68,8 +70,12 @@ export class CountdownTimerImpl implements CountdownTimer {
 
   startTimer() {
     this.guardDestroyed();
-    if (this.currentSeconds <= 0) {
-      throw new InvalidOperationError('Cannot start a finished timer');
+
+    if (this.state === 'running') {
+      return;
+    }
+    if (this.clearTimer) {
+      this.clearTimer();
     }
 
     this.updateState('running', 'start');

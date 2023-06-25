@@ -23,7 +23,9 @@ const PomoTest = () => {
   const [seconds, setSeconds] = useState(
     () => pomoTimer.getInfo().currentSeconds
   );
-  const [state, setState] = useState(() => pomoTimer.getInfo().currentState);
+  const [state, setState] = useState(
+    () => pomoTimer.getInfo().currentPomoState
+  );
   const [autoStart, setAutoStart] = useState(
     () => pomoTimer.getInfo().autoStart
   );
@@ -42,10 +44,15 @@ const PomoTest = () => {
   useEffect(() => {
     pomoTimer.setEventHandler((event) => {
       console.log(event);
-      const { currentSeconds, currentState, pomodoro, shortBreak, longBreak } =
-        event.timerInfo;
+      const {
+        currentSeconds,
+        currentPomoState,
+        pomodoro,
+        shortBreak,
+        longBreak,
+      } = event.timerInfo;
       setSeconds(currentSeconds);
-      setState(currentState);
+      setState(currentPomoState);
       setInfo({ pomodoro, shortBreak, longBreak });
     });
   }, []);
@@ -61,16 +68,13 @@ const PomoTest = () => {
   const handleTimeValueUpdate = (state: PomoState) => {
     switch (state) {
       case 'pomodoro':
-        console.log('setting pomodoro to ', pomodoroInput);
         pomoTimer.setPomodoro(pomodoroInput);
         break;
       case 'short-break':
-        console.log('setting short break to ', shortBreakInput);
         pomoTimer.setShortBreak(shortBreakInput);
         break;
       case 'long-break':
         pomoTimer.setLongBreak(longBreakInput);
-        console.log('setting long break to ', longBreakInput);
         break;
     }
   };
