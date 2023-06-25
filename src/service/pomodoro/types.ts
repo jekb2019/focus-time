@@ -2,7 +2,12 @@ import { TimerEventType } from '../timer/types';
 
 export type PomoState = 'pomodoro' | 'short-break' | 'long-break';
 
-export type PomoEventType = 'state-change' | TimerEventType;
+export type PomoEventType =
+  | TimerEventType
+  | 'state-change'
+  | 'pomodoro-change'
+  | 'short-break-change'
+  | 'long-break-change';
 
 export type PomoEvent = {
   type: PomoEventType;

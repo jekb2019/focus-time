@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   PomodoroTimer,
   PomodoroTimerImpl,
 } from '../service/pomodoro/PomodoroTimer';
 import styles from './PomoTest.module.css';
 import { PomoState } from '../service/pomodoro/types';
+import { convertSecondsToTimeValue } from '../utils/time';
 
 const pomodoro = 5;
 const shortBreak = 2;
@@ -34,6 +35,10 @@ const PomoTest = () => {
   const [shortBreakInput, setShortBreakInput] = useState(shortBreak);
   const [longBreakInput, setLongBreakInput] = useState(longBreak);
 
+  const timeValue = useMemo(() => {
+    return convertSecondsToTimeValue(seconds);
+  }, [seconds]);
+
   useEffect(() => {
     pomoTimer.setEventHandler((event) => {
       console.log(event);
@@ -57,11 +62,14 @@ const PomoTest = () => {
     switch (state) {
       case 'pomodoro':
         console.log('setting pomodoro to ', pomodoroInput);
+        pomoTimer.setPomodoro(pomodoroInput);
         break;
       case 'short-break':
         console.log('setting short break to ', shortBreakInput);
+        pomoTimer.setShortBreak(shortBreakInput);
         break;
       case 'long-break':
+        pomoTimer.setLongBreak(longBreakInput);
         console.log('setting long break to ', longBreakInput);
         break;
     }

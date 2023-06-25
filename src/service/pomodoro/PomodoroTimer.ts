@@ -57,6 +57,16 @@ export class PomodoroTimerImpl implements PomodoroTimer {
     this.createTimer(pomodoro);
   }
 
+  private fireEvent(eventType: PomoEventType) {
+    const pomoEvent = {
+      type: eventType,
+      timerInfo: this.getInfo(),
+    };
+    if (this.eventHandler) {
+      this.eventHandler(pomoEvent);
+    }
+  }
+
   private createTimer(startingSeconds: number) {
     if (this.countdownTimer) {
       this.countdownTimer.destroyTimer();
@@ -76,16 +86,6 @@ export class PomodoroTimerImpl implements PomodoroTimer {
         }
       },
     });
-  }
-
-  private fireEvent(eventType: PomoEventType) {
-    const pomoEvent = {
-      type: eventType,
-      timerInfo: this.getInfo(),
-    };
-    if (this.eventHandler) {
-      this.eventHandler(pomoEvent);
-    }
   }
 
   // Operations
@@ -154,15 +154,36 @@ export class PomodoroTimerImpl implements PomodoroTimer {
 
   // Setters
   setPomodoro(seconds: number) {
+    if (seconds === this.pomodoro) {
+      return;
+    }
     this.pomodoro = seconds;
+    if (this.currentState === 'pomodoro') {
+      this.createTimer(seconds);
+    }
+    this.fireEvent('pomodoro-change');
   }
 
   setShortBreak(seconds: number) {
+    if (seconds === this.shortBreak) {
+      return;
+    }
     this.shortBreak = seconds;
+    if (this.currentState === 'short-break') {
+      this.createTimer(seconds);
+    }
+    this.fireEvent('short-break-change');
   }
 
   setLongBreak(seconds: number) {
+    if (seconds === this.longBreak) {
+      return;
+    }
     this.longBreak = seconds;
+    if (this.currentState === 'long-break') {
+      this.createTimer(seconds);
+    }
+    this.fireEvent('long-break-change');
   }
 
   setEventHandler(eventHandler: (event: PomoEvent) => void) {
