@@ -1,3 +1,4 @@
+import { findClosestAndBiggerNumber } from '../../utils/array';
 import { CountdownTimer, CountdownTimerImpl } from '../timer/CountdownTimer';
 import { TimerState } from '../timer/types';
 import { InvalidPomoStateError } from './errors';
@@ -14,8 +15,9 @@ export interface PomodoroTimer {
   startTimer(): void;
   pauseTimer(): void;
   resetTimer(): void;
-  changeToNextPomoState(state: PomoState, shouldAutoStart?: boolean): void;
-  changePomoState(state: PomoState, shouldAutoStart?: boolean): void;
+  changeToNextPomoState(): void;
+  changeToPreviousPomoState(): void;
+  changeToTargetPomoState(state: PomoState): void;
   setPomodoro(seconds: number): void;
   setShortBreak(seconds: number): void;
   setLongBreak(seconds: number): void;
@@ -25,6 +27,18 @@ export interface PomodoroTimer {
 }
 
 export class PomodoroTimerImpl implements PomodoroTimer {
+  // Constants
+  private POMO_FLOW: PomoState[] = [
+    'pomodoro',
+    'short-break',
+    'pomodoro',
+    'short-break',
+    'pomodoro',
+    'short-break',
+    'pomodoro',
+    'long-break',
+  ];
+
   // Internal
   private countdownTimer: CountdownTimer | null = null;
 
@@ -38,6 +52,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
   private currentSeconds: number;
   private currentPomoState: PomoState = 'pomodoro';
   private currentTimerState: TimerState | 'initialized' = 'initialized';
+  private currentPomoFlowIndex = 0;
   private autoStart: boolean = false;
 
   constructor(config: PomoConfig) {
@@ -91,41 +106,24 @@ export class PomodoroTimerImpl implements PomodoroTimer {
     });
   }
 
-  // Operations
-  startTimer() {
-    if (this.countdownTimer) {
-      this.countdownTimer.startTimer();
+  private getNextPomoFlowIndex() {
+    const maxIndex = this.POMO_FLOW.length - 1;
+    const tempNextIndex = this.currentPomoFlowIndex + 1;
+    if (tempNextIndex > maxIndex) {
+      return 0;
     }
+    return tempNextIndex;
   }
 
-  pauseTimer() {
-    if (this.countdownTimer) {
-      this.countdownTimer.pauseTimer();
+  private getPreviousPomoFlowIndex() {
+    const tempPreviousIndex = this.currentPomoFlowIndex - 1;
+    if (tempPreviousIndex < 0) {
+      return this.POMO_FLOW.length - 1;
     }
+    return tempPreviousIndex;
   }
 
-  resetTimer() {
-    let resetSeconds = this.pomodoro;
-    if (this.currentPomoState === 'short-break') {
-      resetSeconds = this.shortBreak;
-    } else if (this.currentPomoState === 'long-break') {
-      resetSeconds = this.longBreak;
-    }
-
-    this.createTimer(resetSeconds);
-  }
-
-  changeToNextPomoState() {
-    let nextState: PomoState = 'short-break';
-    if (this.currentPomoState === 'short-break') {
-      nextState = 'long-break';
-    } else if (this.currentPomoState === 'long-break') {
-      nextState = 'pomodoro';
-    }
-    this.changePomoState(nextState, this.autoStart);
-  }
-
-  changePomoState(state: PomoState, shouldAutoStart?: boolean) {
+  private changePomoState(state: PomoState, shouldAutoStart: boolean) {
     if (this.currentPomoState === state) {
       return;
     }
@@ -153,6 +151,65 @@ export class PomodoroTimerImpl implements PomodoroTimer {
     if (shouldAutoStart) {
       this.startTimer();
     }
+  }
+
+  // Operations
+  startTimer() {
+    if (this.countdownTimer) {
+      this.countdownTimer.startTimer();
+    }
+  }
+
+  pauseTimer() {
+    if (this.countdownTimer) {
+      this.countdownTimer.pauseTimer();
+    }
+  }
+
+  resetTimer() {
+    let resetSeconds = this.pomodoro;
+    if (this.currentPomoState === 'short-break') {
+      resetSeconds = this.shortBreak;
+    } else if (this.currentPomoState === 'long-break') {
+      resetSeconds = this.longBreak;
+    }
+
+    this.createTimer(resetSeconds);
+  }
+
+  changeToNextPomoState() {
+    const nextPomoFlowIndex = this.getNextPomoFlowIndex();
+    this.currentPomoFlowIndex = nextPomoFlowIndex;
+    const nextPomoState = this.POMO_FLOW[nextPomoFlowIndex];
+    this.changePomoState(nextPomoState, this.autoStart);
+  }
+
+  changeToPreviousPomoState() {
+    const previousPomoFlowIndex = this.getPreviousPomoFlowIndex();
+    this.currentPomoFlowIndex = previousPomoFlowIndex;
+    const previousPomoState = this.POMO_FLOW[previousPomoFlowIndex];
+    this.changePomoState(previousPomoState, this.autoStart);
+  }
+
+  changeToTargetPomoState(state: PomoState) {
+    if (this.currentPomoState === state) {
+      return;
+    }
+
+    const possibleIndices: number[] = [];
+    for (const index in this.POMO_FLOW) {
+      if (this.POMO_FLOW[index] === state) {
+        possibleIndices.push(Number(index));
+      }
+    }
+
+    const targetIndex = findClosestAndBiggerNumber(
+      this.currentPomoFlowIndex,
+      possibleIndices
+    );
+
+    this.currentPomoFlowIndex = targetIndex;
+    this.changePomoState(state, this.autoStart);
   }
 
   // Setters
@@ -207,6 +264,10 @@ export class PomodoroTimerImpl implements PomodoroTimer {
       autoStart: this.autoStart,
       eventHandler: this.eventHandler,
       currentTimerState: this.currentTimerState,
+      pomoFlowInfo: {
+        pomoFlow: this.POMO_FLOW,
+        currentPomoFlowIndex: this.currentPomoFlowIndex,
+      },
     };
   }
 }

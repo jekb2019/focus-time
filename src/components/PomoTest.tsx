@@ -41,6 +41,11 @@ const PomoTest = () => {
     return currentTimerState;
   });
 
+  const [pomoFlowInfo, setPomoFlowInfo] = useState(() => {
+    const { pomoFlowInfo } = pomoTimer.getInfo();
+    return pomoFlowInfo;
+  });
+
   const [pomodoroInput, setPomodoroInput] = useState(pomodoro);
   const [shortBreakInput, setShortBreakInput] = useState(shortBreak);
   const [longBreakInput, setLongBreakInput] = useState(longBreak);
@@ -60,11 +65,13 @@ const PomoTest = () => {
         shortBreak,
         longBreak,
         currentTimerState,
+        pomoFlowInfo,
       } = event.timerInfo;
       setSeconds(currentSeconds);
       setState(currentPomoState);
       setInfo({ pomodoro, shortBreak, longBreak });
       setTimterState(currentTimerState);
+      setPomoFlowInfo(pomoFlowInfo);
     });
   }, []);
 
@@ -73,7 +80,7 @@ const PomoTest = () => {
   }, [autoStart]);
 
   const handleStateButtonClick = (state: PomoState) => {
-    pomoTimer.changePomoState(state);
+    pomoTimer.changeToTargetPomoState(state);
   };
 
   const handleTimeValueUpdate = (state: PomoState) => {
@@ -90,9 +97,47 @@ const PomoTest = () => {
     }
   };
 
+  const handleChangePomoState = (direction: 'next' | 'previous') => {
+    if (direction === 'next') {
+      pomoTimer.changeToNextPomoState();
+      return;
+    }
+    pomoTimer.changeToPreviousPomoState();
+  };
+
+  const PomoState = ({
+    pomoIndex,
+    state,
+    currentPomoFlowIndex,
+  }: {
+    pomoIndex: number;
+    state: PomoState;
+    currentPomoFlowIndex: number;
+  }) => (
+    <span
+      className={
+        pomoIndex === currentPomoFlowIndex ? styles.activePomoIndex : undefined
+      }
+    >
+      {state.substring(0, 1).toUpperCase()}
+    </span>
+  );
+
   return (
     <div className={styles.container}>
       <h1 className={styles.label}>Pomodoro Timer</h1>
+      <div className={styles.flow}>
+        <button onClick={() => handleChangePomoState('previous')}>Prev</button>
+        {pomoFlowInfo.pomoFlow.map((state, idx) => (
+          <PomoState
+            key={idx}
+            pomoIndex={idx}
+            state={state}
+            currentPomoFlowIndex={pomoFlowInfo.currentPomoFlowIndex}
+          />
+        ))}
+        <button onClick={() => handleChangePomoState('next')}>Next</button>
+      </div>
       <div className={styles['timer-info']}>
         <p>Timer state: {timerState}</p>
         <div className={styles['timer-value']}>

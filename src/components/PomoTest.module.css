@@ -8,6 +8,26 @@
   margin-bottom: 5px;
 }
 
+.flow {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.flow span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.activePomoIndex {
+  background-color: powderblue;
+}
+
 .timer-info {
   border: 1px solid black;
   padding: 5px 10px;
