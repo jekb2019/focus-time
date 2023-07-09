@@ -1,3 +1,7 @@
-.container {
-  padding: 0 10px 10px 10px;
+.pomoContainer {
+  padding: 8px 10px 10px 10px;
+}
+
+.settingContainer {
+  padding: 0px 0px 4px 0px;
 }
