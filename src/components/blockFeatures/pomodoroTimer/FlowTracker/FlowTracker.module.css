@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.selectors {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 25px;
+}
+
+.selector {
+  font-size: 1.2em;
+  width: 140px;
+  padding: 5px 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.active {
+  background-color: #ff6347;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.tracker {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.traversor {
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  font-size: 1.2em;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: bold;
+  border: 1px solid red;
+  background-color: #ff6347;
+  color: white;
+}
+
+.state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4em;
+  border: 1px solid black;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}

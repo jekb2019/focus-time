@@ -1,0 +1,14 @@
+.container {
+  background-color: white;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.header {
+  padding: 18px;
+}
+
+.header span {
+  font-size: 1.4rem;
+  font-weight: bold;
+}

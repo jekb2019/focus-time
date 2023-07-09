@@ -1,11 +1,10 @@
-import PomoTest from './components/PomoTest';
-import TimerTest from './components/TimerTest';
+import styles from './App.module.css';
+import MainContainer from './components/MainContainer/MainContainer';
 
 function App() {
   return (
-    <div>
-      <TimerTest />
-      <PomoTest />
+    <div className={styles.app}>
+      <MainContainer />
     </div>
   );
 }

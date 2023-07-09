@@ -227,15 +227,45 @@ export class PomodoroTimerImpl implements PomodoroTimer {
 
   // Setters
   setTimeValues(setting: {
-    pomodoro?: number;
-    shortBreak?: number;
-    longBreak?: number;
+    pomodoro: number;
+    shortBreak: number;
+    longBreak: number;
   }) {
     const { pomodoro, shortBreak, longBreak } = setting;
-    console.log(setting);
-    // pomodoro !== undefined && this.setPomodoro(pomodoro, false, false);
-    // shortBreak !== undefined && this.setShortBreak(shortBreak, false, false);
-    // longBreak !== undefined && this.setLongBreak(longBreak, false, false);
+    this.guardTimeSetting(pomodoro);
+    this.guardTimeSetting(shortBreak);
+    this.guardTimeSetting(longBreak);
+
+    let shouldFireEvent = false;
+
+    if (pomodoro !== this.pomodoro) {
+      shouldFireEvent = true;
+      if (this.currentPomoState === 'pomodoro') {
+        this.createTimer(pomodoro);
+      }
+    }
+
+    if (shortBreak !== this.shortBreak) {
+      shouldFireEvent = true;
+      if (this.currentPomoState === 'short-break') {
+        this.createTimer(shortBreak);
+      }
+    }
+
+    if (longBreak !== this.longBreak) {
+      shouldFireEvent = true;
+      if (this.currentPomoState === 'long-break') {
+        this.createTimer(longBreak);
+      }
+    }
+
+    this.pomodoro = pomodoro;
+    this.shortBreak = shortBreak;
+    this.longBreak = longBreak;
+
+    if (shouldFireEvent) {
+      this.fireEvent('time-setting-change');
+    }
   }
 
   setPomodoro(seconds: number) {

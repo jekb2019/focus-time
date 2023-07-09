@@ -1,0 +1,11 @@
+.bar {
+  position: relative;
+  border: 1px solid black;
+  height: 6px;
+  background-color: black;
+}
+
+.fill {
+  background-color: #ff6347;
+  height: 100%;
+}

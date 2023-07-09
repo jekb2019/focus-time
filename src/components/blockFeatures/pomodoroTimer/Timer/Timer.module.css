@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 0px 120px 0px;
+}
+
+.timer {
+  position: relative;
+}
+
+.resetButton {
+  position: absolute;
+  top: 0;
+  right: -15px;
+  font-size: 1.4em;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.resetButton:hover {
+  color: #ff6347;
+}
+
+.time {
+  font-size: 7em;
+}
+
+.controller {
+  border: 1px solid green;
+  width: 280px;
+  height: 40px;
+  border-radius: 5px;
+  color: white;
+  background-color: black;
+  outline: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: 0.2s background-color;
+}
+
+.controller:hover {
+  background-color: #ff6347;
+}
