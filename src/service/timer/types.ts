@@ -29,3 +29,9 @@ export type CountdownTimerConfig = {
   eventHandler: TimerEventHandler;
   startingSeconds: number;
 };
+
+export type SettingField =
+  | 'pomodoro'
+  | 'short-break'
+  | 'long-break'
+  | 'auto-start';

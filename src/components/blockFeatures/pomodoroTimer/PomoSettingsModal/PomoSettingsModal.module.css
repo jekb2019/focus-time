@@ -1,0 +1,89 @@
+.container {
+  position: relative;
+  width: 350px;
+  height: 350px;
+  padding: 30px;
+  background-color: #ffc2ab;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.4em;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.2s all;
+}
+
+.closeButton:hover {
+  background-color: #ff6b51;
+  color: white;
+}
+
+.title {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.field label {
+  font-size: 1.3em;
+}
+
+.inputField {
+  outline: none;
+  padding-left: 5px;
+  border: 2px solid #ff6347;
+  background-color: transparent;
+  font-size: 1.3em;
+  width: 65px;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+}
+
+.buttons {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.buttons button {
+  padding: 5px 25px;
+  font-size: 1.3em;
+  background-color: #ff6347;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.buttons button:hover {
+  opacity: 0.9;
+}

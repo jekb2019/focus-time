@@ -5,8 +5,8 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 const FlowTracker = () => (
   <div className={styles.container}>
     <div className={styles.selectors}>
-      <button className={styles.selector}>Short Break</button>
       <button className={`${styles.active} ${styles.selector}`}>Focus</button>
+      <button className={styles.selector}>Short Break</button>
       <button className={styles.selector}>Long Break</button>
     </div>
     <div className={styles.tracker}>

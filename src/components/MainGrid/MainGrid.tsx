@@ -1,4 +1,3 @@
-import ContentBox from '../ContentBox/ContentBox';
 import Pomodoro from '../blockFeatures/pomodoroTimer/Pomodoro/Pomodoro';
 import styles from './MainGrid.module.css';
 
