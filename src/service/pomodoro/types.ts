@@ -39,6 +39,8 @@ export type PomoConfig = {
   pomodoro: number;
   shortBreak: number;
   longBreak: number;
+  autoStart: boolean; // When timer finish, should next state timer auto start
   eventHandler?: PomoEventHandler;
-  autoStart?: boolean; // When timer finish, should next state timer auto start
 };
+
+export type PomoSettings = Omit<PomoConfig, 'eventHandler'>;

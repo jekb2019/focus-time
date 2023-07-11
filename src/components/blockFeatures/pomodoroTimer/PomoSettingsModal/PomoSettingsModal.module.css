@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: 350px;
-  height: 350px;
+  height: 360px;
   padding: 30px;
   background-color: #ffc2ab;
 }
@@ -62,6 +62,22 @@
 .checkbox {
   width: 20px;
   height: 20px;
+}
+
+.revertButtonContainer {
+  text-align: right;
+}
+
+.revertButton {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.revertButton:hover {
+  color: #ff6347;
 }
 
 .buttons {

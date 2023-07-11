@@ -9,7 +9,7 @@ import PomoSettingsModal from '../PomoSettingsModal/PomoSettingsModal';
 import { SettingField } from '../../../../service/timer/types';
 import { PomodoroTimer } from '../../../../service/pomodoro/PomodoroTimer';
 import { PomoTimerInfo } from '../../../../service/pomodoro/types';
-import { convertSecondsToTimeValue } from '../../../../utils/time';
+import { secondsToMinutes } from '../../../../utils/time';
 
 type PomorodoProps = {
   pomodoroTimer: PomodoroTimer;
@@ -64,15 +64,9 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
           closeSettings={closeSettings}
           defaultSettingFocus={defaultSettingFocus}
           pomodoroTimer={pomodoroTimer}
-          pomodoroTotalMinutes={
-            convertSecondsToTimeValue(pomodoroTotalSeconds).minutes
-          }
-          shortBreakTotalMinutes={
-            convertSecondsToTimeValue(shortBreakTotalSeconds).minutes
-          }
-          longBreakTotalMinutes={
-            convertSecondsToTimeValue(longBreakTotalSeconds).minutes
-          }
+          pomodoroTotalMinutes={secondsToMinutes(pomodoroTotalSeconds)}
+          shortBreakTotalMinutes={secondsToMinutes(shortBreakTotalSeconds)}
+          longBreakTotalMinutes={secondsToMinutes(longBreakTotalSeconds)}
           isAutoStartEnabled={isAutoStartEnabled}
         />
       )}
@@ -111,15 +105,9 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
         <div className={styles.settingContainer}>
           <PomoSettings
             openSettings={openSettings}
-            pomodoroTotalMinutes={
-              convertSecondsToTimeValue(pomodoroTotalSeconds).minutes
-            }
-            shortBreakTotalMinutes={
-              convertSecondsToTimeValue(shortBreakTotalSeconds).minutes
-            }
-            longBreakTotalMinutes={
-              convertSecondsToTimeValue(longBreakTotalSeconds).minutes
-            }
+            pomodoroTotalMinutes={secondsToMinutes(pomodoroTotalSeconds)}
+            shortBreakTotalMinutes={secondsToMinutes(shortBreakTotalSeconds)}
+            longBreakTotalMinutes={secondsToMinutes(longBreakTotalSeconds)}
             isAutoStartEnabled={isAutoStartEnabled}
           />
         </div>

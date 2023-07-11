@@ -4,8 +4,14 @@ import Modal from '../../../Modal/Modal';
 import styles from './PomoSettingsModal.module.css';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef, useState } from 'react';
-import { PomodoroTimer } from '../../../../service/pomodoro/PomodoroTimer';
+import {
+  DEFAULT_POMODORO_MINUTES,
+  DEFAULT_SHORT_BREAK_MINUTES,
+  DEFAULT_LONG_BREAK_MINUTES,
+  PomodoroTimer,
+} from '../../../../service/pomodoro/PomodoroTimer';
 import { ONE_MINUTE_IN_SECONDS } from '../../../../utils/time';
+import { setPomodoroTimerSettingsToLocalStorage } from '../../../../service/localStorage/pomodoroLocalStorage';
 
 type PomoSettingsModalProps = {
   isSettingsOpen: boolean;
@@ -54,14 +60,26 @@ const PomoSettingsModal = ({
   }, [defaultSettingFocus]);
 
   const apply = () => {
-    pomodoroTimer.setTimeValues({
+    const timeValues = {
       pomodoro: pomodoroValue * ONE_MINUTE_IN_SECONDS,
       shortBreak: shortBreakValue * ONE_MINUTE_IN_SECONDS,
       longBreak: longBreakValue * ONE_MINUTE_IN_SECONDS,
-    });
+    };
+    pomodoroTimer.setTimeValues(timeValues);
     pomodoroTimer.setAutoStart(autoStartEnabled);
-    console.log('Applying');
+
+    setPomodoroTimerSettingsToLocalStorage({
+      ...timeValues,
+      autoStart: autoStartEnabled,
+    });
     closeSettings();
+  };
+
+  const revertInputValuesToDefault = () => {
+    setPomodoroValue(DEFAULT_POMODORO_MINUTES);
+    setShortBreakValue(DEFAULT_SHORT_BREAK_MINUTES);
+    setLongBreakValue(DEFAULT_LONG_BREAK_MINUTES);
+    setAutoStartEnabled(false);
   };
 
   return (
@@ -114,6 +132,14 @@ const PomoSettingsModal = ({
               checked={autoStartEnabled}
               onChange={(e) => setAutoStartEnabled(e.target.checked)}
             />
+          </div>
+          <div className={styles.revertButtonContainer}>
+            <button
+              className={styles.revertButton}
+              onClick={revertInputValuesToDefault}
+            >
+              Revert to default settings
+            </button>
           </div>
         </div>
         <div className={styles.buttons}>

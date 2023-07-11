@@ -25,3 +25,7 @@ export function convertTimeValueToString(timeValue: TimeValue): string {
     return `${minutes}:${seconds}`;
   }
 }
+
+export function secondsToMinutes(seconds: number): number {
+  return Math.floor(seconds / 60);
+}

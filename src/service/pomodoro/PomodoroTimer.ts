@@ -11,6 +11,10 @@ import {
   PomoTimerInfo,
 } from './types';
 
+export const DEFAULT_POMODORO_MINUTES = 25;
+export const DEFAULT_SHORT_BREAK_MINUTES = 5;
+export const DEFAULT_LONG_BREAK_MINUTES = 15;
+
 export interface PomodoroTimer {
   startTimer(): void;
   pauseTimer(): void;
@@ -68,9 +72,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
     this.longBreak = longBreak;
     this.currentSeconds = pomodoro;
 
-    if (autoStart) {
-      this.autoStart = autoStart;
-    }
+    this.autoStart = autoStart;
 
     if (eventHandler) {
       this.eventHandler = eventHandler;
