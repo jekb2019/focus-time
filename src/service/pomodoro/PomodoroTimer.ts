@@ -320,7 +320,10 @@ export class PomodoroTimerImpl implements PomodoroTimer {
   }
 
   setAutoStart(shouldAutoStart: boolean) {
-    this.autoStart = shouldAutoStart;
+    if (shouldAutoStart !== this.autoStart) {
+      this.autoStart = shouldAutoStart;
+      this.fireEvent('time-setting-change');
+    }
   }
 
   getInfo(): PomoTimerInfo {

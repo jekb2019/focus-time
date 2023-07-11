@@ -21,6 +21,10 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
   );
 
   useEffect(() => {
+    console.log(timerStatus);
+  }, [timerStatus]);
+
+  useEffect(() => {
     pomodoroTimer.setEventHandler((event) => setTimerStatus(event.timerInfo));
   }, []);
 

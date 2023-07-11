@@ -60,6 +60,7 @@ const PomoSettingsModal = ({
       longBreak: longBreakValue * ONE_MINUTE_IN_SECONDS,
     });
     pomodoroTimer.setAutoStart(autoStartEnabled);
+    console.log('Applying');
     closeSettings();
   };
 
