@@ -19,7 +19,7 @@
   cursor: pointer;
 }
 
-.active {
+.activeSelector {
   background-color: #ff6347;
   color: white;
   font-weight: bold;
@@ -43,9 +43,9 @@
   background-color: transparent;
   cursor: pointer;
   font-weight: bold;
-  border: 1px solid red;
   background-color: #ff6347;
   color: white;
+  border: none;
 }
 
 .state {
@@ -57,4 +57,10 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
+}
+
+.activeState {
+  background-color: #ff6347;
+  color: white;
+  border: none;
 }

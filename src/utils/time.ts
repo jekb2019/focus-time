@@ -1,5 +1,7 @@
 import { TimeValue } from '../types/time';
 
+export const ONE_MINUTE_IN_SECONDS = 60;
+
 export function convertSecondsToTimeValue(secondsValue: number): TimeValue {
   let hours = Math.floor(secondsValue / 3600);
   let minutes = Math.floor((secondsValue % 3600) / 60);

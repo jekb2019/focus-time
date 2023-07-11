@@ -3,26 +3,47 @@ import styles from './PomoSettings.module.css';
 
 type PomoSettingsProps = {
   openSettings: (field: SettingField) => void;
+  pomodoroTotalMinutes: number;
+  shortBreakTotalMinutes: number;
+  longBreakTotalMinutes: number;
+  isAutoStartEnabled: boolean;
 };
-const PomoSettings = ({ openSettings }: PomoSettingsProps) => (
-  <ul className={styles.settings}>
-    <li className={styles.setting} onClick={() => openSettings('pomodoro')}>
-      <span className={styles.settingLabel}>Focus</span>
-      <span className={styles.settingValue}>40 mins</span>
-    </li>
-    <li className={styles.setting} onClick={() => openSettings('short-break')}>
-      <span className={styles.settingLabel}>Short Break</span>
-      <span className={styles.settingValue}>5 mins</span>
-    </li>
-    <li className={styles.setting} onClick={() => openSettings('long-break')}>
-      <span className={styles.settingLabel}>Long Break</span>
-      <span className={styles.settingValue}>30 mins</span>
-    </li>
-    <li className={styles.setting} onClick={() => openSettings('auto-start')}>
-      <span className={styles.settingLabel}>Auto Start</span>
-      <span className={styles.settingValue}>Yes</span>
-    </li>
-  </ul>
-);
+const PomoSettings = ({
+  openSettings,
+  pomodoroTotalMinutes,
+  shortBreakTotalMinutes,
+  longBreakTotalMinutes,
+  isAutoStartEnabled,
+}: PomoSettingsProps) => {
+  return (
+    <ul className={styles.settings}>
+      <li className={styles.setting} onClick={() => openSettings('pomodoro')}>
+        <span className={styles.settingLabel}>Focus</span>
+        <span className={styles.settingValue}>{pomodoroTotalMinutes} mins</span>
+      </li>
+      <li
+        className={styles.setting}
+        onClick={() => openSettings('short-break')}
+      >
+        <span className={styles.settingLabel}>Short Break</span>
+        <span className={styles.settingValue}>
+          {shortBreakTotalMinutes} mins
+        </span>
+      </li>
+      <li className={styles.setting} onClick={() => openSettings('long-break')}>
+        <span className={styles.settingLabel}>Long Break</span>
+        <span className={styles.settingValue}>
+          {longBreakTotalMinutes} mins
+        </span>
+      </li>
+      <li className={styles.setting} onClick={() => openSettings('auto-start')}>
+        <span className={styles.settingLabel}>Auto Start</span>
+        <span className={styles.settingValue}>
+          {isAutoStartEnabled ? 'Yes' : 'No'}
+        </span>
+      </li>
+    </ul>
+  );
+};
 
 export default PomoSettings;

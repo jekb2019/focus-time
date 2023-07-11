@@ -38,4 +38,6 @@ pomodoro-short-pomodoro-short-pomodoro-short-pomodoro-long
 # Todo
 
 - Am I gonna leave this repo public? - IDK
-- Implement: Set all time at once
+- Write documentation explaining directory structure
+- Add validations to settings modal input values
+- Beautify overall

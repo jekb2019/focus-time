@@ -57,7 +57,6 @@ const PomoTest = () => {
 
   useEffect(() => {
     pomoTimer.setEventHandler((event) => {
-      console.log(event);
       const {
         currentSeconds,
         currentPomoState,

@@ -1,18 +1,22 @@
 import styles from './TimerProgress.module.css';
 
-const percentage = 65;
+type TimerProgressProps = {
+  percentage: number;
+};
 
-const TimerProgress = () => (
-  <div className={styles.container}>
-    <div className={styles.bar}>
-      <div
-        className={styles.fill}
-        style={{
-          width: '50%',
-        }}
-      ></div>
+const TimerProgress = ({ percentage }: TimerProgressProps) => {
+  return (
+    <div className={styles.container}>
+      <div className={styles.bar}>
+        <div
+          className={styles.fill}
+          style={{
+            width: `${percentage}%`,
+          }}
+        ></div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default TimerProgress;

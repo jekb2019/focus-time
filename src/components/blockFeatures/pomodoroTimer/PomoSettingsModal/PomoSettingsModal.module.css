@@ -52,11 +52,11 @@
 
 .inputField {
   outline: none;
-  padding-left: 5px;
-  border: 2px solid #ff6347;
-  background-color: transparent;
+  border: none;
+  background-color: #efefef;
   font-size: 1.3em;
   width: 65px;
+  padding: 3px 5px;
 }
 
 .checkbox {

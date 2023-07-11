@@ -30,6 +30,7 @@ export type PomoTimerInfo = {
   eventHandler?: PomoEventHandler;
   currentTimerState: TimerState | 'initialized';
   pomoFlowInfo: PomoFlowInfo;
+  totalSecondsOfCurrentPomoState: number;
 };
 
 export type PomoEventHandler = (event: PomoEvent) => void;

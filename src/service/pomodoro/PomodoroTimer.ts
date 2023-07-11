@@ -166,6 +166,17 @@ export class PomodoroTimerImpl implements PomodoroTimer {
     }
   }
 
+  private getTotalSecondsOfCurrentPomoState(): number {
+    switch (this.currentPomoState) {
+      case 'pomodoro':
+        return this.pomodoro;
+      case 'short-break':
+        return this.shortBreak;
+      case 'long-break':
+        return this.longBreak;
+    }
+  }
+
   // Operations
   startTimer() {
     if (this.countdownTimer) {
@@ -326,6 +337,7 @@ export class PomodoroTimerImpl implements PomodoroTimer {
         pomoFlow: this.POMO_FLOW,
         currentPomoFlowIndex: this.currentPomoFlowIndex,
       },
+      totalSecondsOfCurrentPomoState: this.getTotalSecondsOfCurrentPomoState(),
     };
   }
 }
