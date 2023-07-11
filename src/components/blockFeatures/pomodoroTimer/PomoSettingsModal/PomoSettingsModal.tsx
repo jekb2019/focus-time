@@ -13,6 +13,7 @@ import {
 import { ONE_MINUTE_IN_SECONDS } from '../../../../utils/time';
 import { setPomodoroTimerSettingsToLocalStorage } from '../../../../service/localStorage/pomodoroLocalStorage';
 import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
+import { CloseButton } from './styles';
 
 type PomoSettingsModalProps = {
   isSettingsOpen: boolean;
@@ -93,9 +94,13 @@ const PomoSettingsModal = ({
           backgroundColor: palette.base,
         }}
       >
-        <button className={styles.closeButton} onClick={closeSettings}>
+        <CloseButton
+          className={styles.closeButton}
+          onClick={closeSettings}
+          $hoverColor={palette.accent}
+        >
           <FontAwesomeIcon icon={faXmark} />
-        </button>
+        </CloseButton>
         <h2 className={styles.title}>Settings</h2>
         <div className={styles.settings}>
           <div className={styles.field}>

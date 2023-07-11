@@ -2,19 +2,6 @@
   list-style: none;
 }
 
-.setting {
-  cursor: pointer;
-  border-top: 1px solid rgb(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 24px;
-  transition: 0.2s all;
-}
-
-.setting:hover {
-  background-color: #ff6b51;
-}
-
 .setting:hover .settingValue,
 .setting:hover .settingLabel {
   color: white;

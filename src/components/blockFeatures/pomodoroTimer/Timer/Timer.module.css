@@ -9,21 +9,6 @@
   position: relative;
 }
 
-.resetButton {
-  position: absolute;
-  top: 0;
-  right: -15px;
-  font-size: 1.4em;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-}
-
-.resetButton:hover {
-  color: #ff6347;
-}
-
 .time {
   font-size: 7em;
 }

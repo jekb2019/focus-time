@@ -12,6 +12,7 @@ import {
 } from '../../../../utils/time';
 import { TimerState } from '../../../../service/timer/types';
 import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
+import { ResetButton } from './styles';
 
 type TimerProps = {
   pomodoroTimer: PomodoroTimer;
@@ -43,12 +44,13 @@ const Timer = ({
   return (
     <div className={styles.container}>
       <div className={styles.timer}>
-        <button
+        <ResetButton
           className={styles.resetButton}
           onClick={() => pomodoroTimer.resetTimer()}
+          $hoverColor={palette.accent}
         >
           <FontAwesomeIcon icon={faRotateBack} />
-        </button>
+        </ResetButton>
         <p className={styles.time}>{timeString}</p>
       </div>
       <button
