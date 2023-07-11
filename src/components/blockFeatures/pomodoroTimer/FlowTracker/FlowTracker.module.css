@@ -20,7 +20,6 @@
 }
 
 .activeSelector {
-  background-color: #ff6347;
   color: white;
   font-weight: bold;
   border-radius: 5px;
@@ -43,7 +42,6 @@
   background-color: transparent;
   cursor: pointer;
   font-weight: bold;
-  background-color: #ff6347;
   color: white;
   border: none;
 }

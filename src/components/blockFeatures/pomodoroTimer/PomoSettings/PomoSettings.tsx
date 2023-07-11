@@ -1,3 +1,4 @@
+import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
 import { SettingField } from '../../../../service/timer/types';
 import styles from './PomoSettings.module.css';
 
@@ -7,6 +8,7 @@ type PomoSettingsProps = {
   shortBreakTotalMinutes: number;
   longBreakTotalMinutes: number;
   isAutoStartEnabled: boolean;
+  palette: PomoPalette;
 };
 const PomoSettings = ({
   openSettings,
@@ -14,6 +16,7 @@ const PomoSettings = ({
   shortBreakTotalMinutes,
   longBreakTotalMinutes,
   isAutoStartEnabled,
+  palette,
 }: PomoSettingsProps) => {
   return (
     <ul className={styles.settings}>

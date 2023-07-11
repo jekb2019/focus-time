@@ -34,14 +34,13 @@
   height: 40px;
   border-radius: 5px;
   color: white;
-  background-color: black;
   outline: none;
   border: none;
   font-size: 1.5em;
   cursor: pointer;
-  transition: 0.2s background-color;
+  transition: 0.2s opacity;
 }
 
 .controller:hover {
-  background-color: #ff6347;
+  opacity: 0.8;
 }

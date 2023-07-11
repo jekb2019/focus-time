@@ -10,6 +10,7 @@ import { SettingField } from '../../../../service/timer/types';
 import { PomodoroTimer } from '../../../../service/pomodoro/PomodoroTimer';
 import { PomoTimerInfo } from '../../../../service/pomodoro/types';
 import { secondsToMinutes } from '../../../../utils/time';
+import { getPomoColorPalette } from '../../../../service/pomodoro/pomoThemes';
 
 type PomorodoProps = {
   pomodoroTimer: PomodoroTimer;
@@ -52,6 +53,11 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
     setIsSettingsOpen(true);
   };
 
+  const palette = useMemo(
+    () => getPomoColorPalette(currentPomoState),
+    [currentPomoState]
+  );
+
   return (
     <>
       {isSettingsOpen && (
@@ -64,12 +70,13 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
           shortBreakTotalMinutes={secondsToMinutes(shortBreakTotalSeconds)}
           longBreakTotalMinutes={secondsToMinutes(longBreakTotalSeconds)}
           isAutoStartEnabled={isAutoStartEnabled}
+          palette={palette}
         />
       )}
       <ContentBox
         title="Pomodoro Timer"
         style={{
-          backgroundColor: '#FFC3AB',
+          backgroundColor: palette.base,
         }}
       >
         <div className={styles.pomoContainer}>
@@ -77,11 +84,13 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
             pomodoroTimer={pomodoroTimer}
             currentPomoState={currentPomoState}
             pomoFlowInfo={pomoFlowInfo}
+            palette={palette}
           />
           <Timer
             pomodoroTimer={pomodoroTimer}
             currentSeconds={currentSeconds}
             currentTimerState={currentTimerState}
+            palette={palette}
           />
           <TimerProgress
             percentage={
@@ -89,13 +98,14 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
                 totalSecondsOfCurrentPomoState) *
               100
             }
+            palette={palette}
           />
         </div>
       </ContentBox>
       <ContentBox
         title="Settings"
         style={{
-          backgroundColor: '#FFC3AB',
+          backgroundColor: palette.base,
         }}
       >
         <div className={styles.settingContainer}>
@@ -105,6 +115,7 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
             shortBreakTotalMinutes={secondsToMinutes(shortBreakTotalSeconds)}
             longBreakTotalMinutes={secondsToMinutes(longBreakTotalSeconds)}
             isAutoStartEnabled={isAutoStartEnabled}
+            palette={palette}
           />
         </div>
       </ContentBox>

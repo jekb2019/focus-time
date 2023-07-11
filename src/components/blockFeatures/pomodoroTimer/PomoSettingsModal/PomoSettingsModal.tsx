@@ -12,6 +12,7 @@ import {
 } from '../../../../service/pomodoro/PomodoroTimer';
 import { ONE_MINUTE_IN_SECONDS } from '../../../../utils/time';
 import { setPomodoroTimerSettingsToLocalStorage } from '../../../../service/localStorage/pomodoroLocalStorage';
+import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
 
 type PomoSettingsModalProps = {
   isSettingsOpen: boolean;
@@ -22,6 +23,7 @@ type PomoSettingsModalProps = {
   shortBreakTotalMinutes: number;
   longBreakTotalMinutes: number;
   isAutoStartEnabled: boolean;
+  palette: PomoPalette;
 };
 
 const PomoSettingsModal = ({
@@ -33,6 +35,7 @@ const PomoSettingsModal = ({
   shortBreakTotalMinutes,
   longBreakTotalMinutes,
   isAutoStartEnabled,
+  palette,
 }: PomoSettingsModalProps) => {
   const pomorodoRef = useRef<HTMLInputElement>(null);
   const shortBreakRef = useRef<HTMLInputElement>(null);
@@ -84,7 +87,12 @@ const PomoSettingsModal = ({
 
   return (
     <Modal open={isSettingsOpen} onClose={closeSettings}>
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        style={{
+          backgroundColor: palette.base,
+        }}
+      >
         <button className={styles.closeButton} onClick={closeSettings}>
           <FontAwesomeIcon icon={faXmark} />
         </button>
@@ -143,7 +151,14 @@ const PomoSettingsModal = ({
           </div>
         </div>
         <div className={styles.buttons}>
-          <button onClick={apply}>Apply</button>
+          <button
+            onClick={apply}
+            style={{
+              backgroundColor: palette.accent,
+            }}
+          >
+            Apply
+          </button>
         </div>
       </div>
     </Modal>

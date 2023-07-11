@@ -3,7 +3,6 @@
   width: 350px;
   height: 360px;
   padding: 30px;
-  background-color: #ffc2ab;
 }
 
 .closeButton {
@@ -77,7 +76,7 @@
 }
 
 .revertButton:hover {
-  color: #ff6347;
+  opacity: 0.5;
 }
 
 .buttons {
@@ -92,7 +91,6 @@
 .buttons button {
   padding: 5px 25px;
   font-size: 1.3em;
-  background-color: #ff6347;
   border: none;
   outline: none;
   border-radius: 5px;

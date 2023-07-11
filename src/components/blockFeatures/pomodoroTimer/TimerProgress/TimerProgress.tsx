@@ -1,10 +1,12 @@
+import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
 import styles from './TimerProgress.module.css';
 
 type TimerProgressProps = {
   percentage: number;
+  palette: PomoPalette;
 };
 
-const TimerProgress = ({ percentage }: TimerProgressProps) => {
+const TimerProgress = ({ percentage, palette }: TimerProgressProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.bar}>
@@ -12,6 +14,7 @@ const TimerProgress = ({ percentage }: TimerProgressProps) => {
           className={styles.fill}
           style={{
             width: `${percentage}%`,
+            backgroundColor: palette.accent,
           }}
         ></div>
       </div>

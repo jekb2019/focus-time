@@ -4,17 +4,20 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { PomoFlowInfo, PomoState } from '../../../../service/pomodoro/types';
 import { useMemo } from 'react';
 import { PomodoroTimer } from '../../../../service/pomodoro/PomodoroTimer';
+import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
 
 type FlowTrackerProps = {
   currentPomoState: PomoState;
   pomoFlowInfo: PomoFlowInfo;
   pomodoroTimer: PomodoroTimer;
+  palette: PomoPalette;
 };
 
 const FlowTracker = ({
   pomodoroTimer,
   currentPomoState,
   pomoFlowInfo,
+  palette,
 }: FlowTrackerProps) => {
   const isFocusTime = currentPomoState === 'pomodoro';
   const isShortBreak = currentPomoState === 'short-break';
@@ -45,6 +48,9 @@ const FlowTracker = ({
           className={`${isFocusTime ? styles.activeSelector : undefined} ${
             styles.selector
           }`}
+          style={{
+            ...(isFocusTime && { backgroundColor: palette.accent }),
+          }}
           onClick={() => pomodoroTimer.changeToTargetPomoState('pomodoro')}
         >
           Focus
@@ -53,6 +59,9 @@ const FlowTracker = ({
           className={`${isShortBreak ? styles.activeSelector : undefined} ${
             styles.selector
           }`}
+          style={{
+            ...(isShortBreak && { backgroundColor: palette.accent }),
+          }}
           onClick={() => pomodoroTimer.changeToTargetPomoState('short-break')}
         >
           Short Break
@@ -61,6 +70,9 @@ const FlowTracker = ({
           className={`${isLongBreak ? styles.activeSelector : undefined} ${
             styles.selector
           }`}
+          style={{
+            ...(isLongBreak && { backgroundColor: palette.accent }),
+          }}
           onClick={() => pomodoroTimer.changeToTargetPomoState('long-break')}
         >
           Long Break
@@ -70,6 +82,9 @@ const FlowTracker = ({
         <button
           className={styles.traversor}
           onClick={() => pomodoroTimer.changeToPreviousPomoState()}
+          style={{
+            backgroundColor: palette.accent,
+          }}
         >
           <FontAwesomeIcon className={styles.arrow} icon={faArrowLeft} />
         </button>
@@ -79,6 +94,11 @@ const FlowTracker = ({
             className={`${styles.state} ${
               currentPomoFlowIndex === idx ? styles.activeState : undefined
             }`}
+            style={{
+              ...(currentPomoFlowIndex === idx && {
+                backgroundColor: palette.accent,
+              }),
+            }}
           >
             {getStateFirstCharacter(value)}
           </span>
@@ -86,6 +106,9 @@ const FlowTracker = ({
         <button
           className={styles.traversor}
           onClick={() => pomodoroTimer.changeToNextPomoState()}
+          style={{
+            backgroundColor: palette.accent,
+          }}
         >
           <FontAwesomeIcon className={styles.arrow} icon={faArrowRight} />
         </button>

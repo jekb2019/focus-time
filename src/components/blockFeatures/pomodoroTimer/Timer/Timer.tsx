@@ -11,17 +11,20 @@ import {
   convertTimeValueToString,
 } from '../../../../utils/time';
 import { TimerState } from '../../../../service/timer/types';
+import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
 
 type TimerProps = {
   pomodoroTimer: PomodoroTimer;
   currentSeconds: number;
   currentTimerState: TimerState | 'initialized';
+  palette: PomoPalette;
 };
 
 const Timer = ({
   pomodoroTimer,
   currentSeconds,
   currentTimerState,
+  palette,
 }: TimerProps) => {
   const isRunning = currentTimerState === 'running';
 
@@ -48,7 +51,13 @@ const Timer = ({
         </button>
         <p className={styles.time}>{timeString}</p>
       </div>
-      <button className={styles.controller} onClick={handleClick}>
+      <button
+        className={styles.controller}
+        onClick={handleClick}
+        style={{
+          backgroundColor: palette.accent,
+        }}
+      >
         {isRunning ? (
           <FontAwesomeIcon icon={faPause} />
         ) : (
