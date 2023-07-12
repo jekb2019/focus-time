@@ -35,7 +35,7 @@ pomodoro-short-pomodoro-short-pomodoro-short-pomodoro-long
 - set long break time (default 30 mins)
 - soft lock long break until 4 pomodoro
 
-# Todo
+# Todo (12 July)
 
 - Am I gonna leave this repo public? - IDK
 - Write documentation explaining directory structure
