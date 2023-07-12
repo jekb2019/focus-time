@@ -9,8 +9,13 @@ import PomoSettingsModal from '../PomoSettingsModal/PomoSettingsModal';
 import { SettingField } from '../../../../service/timer/types';
 import { PomodoroTimer } from '../../../../service/pomodoro/PomodoroTimer';
 import { PomoTimerInfo } from '../../../../service/pomodoro/types';
-import { secondsToMinutes } from '../../../../utils/time';
+import {
+  convertSecondsToTimeValue,
+  convertTimeValueToString,
+  secondsToMinutes,
+} from '../../../../utils/time';
 import { getPomoColorPalette } from '../../../../service/pomodoro/pomoThemes';
+import { changeTabTitle } from '../../../../service/browser/browser';
 
 type PomorodoProps = {
   pomodoroTimer: PomodoroTimer;
@@ -38,6 +43,21 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
   } = useMemo(() => {
     return timerStatus;
   }, [timerStatus]);
+
+  useEffect(() => {
+    const timeStringLabel = convertTimeValueToString(
+      convertSecondsToTimeValue(currentSeconds)
+    );
+    let pomoStateLabel = 'Focus';
+    if (currentPomoState === 'long-break') {
+      pomoStateLabel = 'Long break';
+    } else if (currentPomoState === 'short-break') {
+      pomoStateLabel = 'Short break';
+    }
+
+    const tabLabel = `[${timeStringLabel}] ${pomoStateLabel}`;
+    changeTabTitle(tabLabel);
+  }, [currentSeconds, currentPomoState]);
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [defaultSettingFocus, setDefaultSettingFocus] =
