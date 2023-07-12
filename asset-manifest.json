@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/focus-time/static/css/main.26a6df11.css",
-    "main.js": "/focus-time/static/js/main.cdb6da0f.js",
+    "main.js": "/focus-time/static/js/main.062bbc5f.js",
     "static/js/787.1ef07f05.chunk.js": "/focus-time/static/js/787.1ef07f05.chunk.js",
     "index.html": "/focus-time/index.html",
     "main.26a6df11.css.map": "/focus-time/static/css/main.26a6df11.css.map",
-    "main.cdb6da0f.js.map": "/focus-time/static/js/main.cdb6da0f.js.map",
+    "main.062bbc5f.js.map": "/focus-time/static/js/main.062bbc5f.js.map",
     "787.1ef07f05.chunk.js.map": "/focus-time/static/js/787.1ef07f05.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.26a6df11.css",
-    "static/js/main.cdb6da0f.js"
+    "static/js/main.062bbc5f.js"
   ]
 }
