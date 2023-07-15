@@ -1,4 +1,5 @@
 import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
+import { SoundPlayer } from '../../../../service/sound/SoundPlayer';
 import { SettingField } from '../../../../service/timer/types';
 import styles from './PomoSettings.module.css';
 import { SettingItem } from './styles';
@@ -10,6 +11,7 @@ type PomoSettingsProps = {
   longBreakTotalMinutes: number;
   isAutoStartEnabled: boolean;
   palette: PomoPalette;
+  soundPlayer: SoundPlayer;
 };
 const PomoSettings = ({
   openSettings,
@@ -18,6 +20,7 @@ const PomoSettings = ({
   longBreakTotalMinutes,
   isAutoStartEnabled,
   palette,
+  soundPlayer,
 }: PomoSettingsProps) => {
   return (
     <ul className={styles.settings}>
@@ -57,6 +60,16 @@ const PomoSettings = ({
         <span className={styles.settingLabel}>Auto Start</span>
         <span className={styles.settingValue}>
           {isAutoStartEnabled ? 'Yes' : 'No'}
+        </span>
+      </SettingItem>
+      <SettingItem
+        className={styles.setting}
+        onClick={() => openSettings('volume')}
+        $hoverColor={palette.accent}
+      >
+        <span className={styles.settingLabel}>Volume</span>
+        <span className={styles.settingValue}>
+          {soundPlayer.getVolume() * 100}%
         </span>
       </SettingItem>
     </ul>

@@ -14,6 +14,9 @@ import { ONE_MINUTE_IN_SECONDS } from '../../../../utils/time';
 import { setPomodoroTimerSettingsToLocalStorage } from '../../../../service/localStorage/pomodoroLocalStorage';
 import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
 import { CloseButton } from './styles';
+import { Slider } from '@mui/material';
+import { SoundPlayer } from '../../../../service/sound/SoundPlayer';
+import { setVolumeSettingsToLocalStorage } from '../../../../service/localStorage/volumeLocalStorage';
 
 type PomoSettingsModalProps = {
   isSettingsOpen: boolean;
@@ -25,6 +28,7 @@ type PomoSettingsModalProps = {
   longBreakTotalMinutes: number;
   isAutoStartEnabled: boolean;
   palette: PomoPalette;
+  soundPlayer: SoundPlayer;
 };
 
 const PomoSettingsModal = ({
@@ -37,6 +41,7 @@ const PomoSettingsModal = ({
   longBreakTotalMinutes,
   isAutoStartEnabled,
   palette,
+  soundPlayer,
 }: PomoSettingsModalProps) => {
   const pomorodoRef = useRef<HTMLInputElement>(null);
   const shortBreakRef = useRef<HTMLInputElement>(null);
@@ -48,6 +53,7 @@ const PomoSettingsModal = ({
   );
   const [longBreakValue, setLongBreakValue] = useState(longBreakTotalMinutes);
   const [autoStartEnabled, setAutoStartEnabled] = useState(isAutoStartEnabled);
+  const [volume, setVolume] = useState(() => soundPlayer.getVolume());
 
   useEffect(() => {
     switch (defaultSettingFocus) {
@@ -64,6 +70,11 @@ const PomoSettingsModal = ({
   }, [defaultSettingFocus]);
 
   const apply = () => {
+    if (pomodoroValue <= 0 || shortBreakValue <= 0 || longBreakValue <= 0) {
+      alert('Time values must be greater than 0');
+      return;
+    }
+
     const timeValues = {
       pomodoro: pomodoroValue * ONE_MINUTE_IN_SECONDS,
       shortBreak: shortBreakValue * ONE_MINUTE_IN_SECONDS,
@@ -71,11 +82,14 @@ const PomoSettingsModal = ({
     };
     pomodoroTimer.setTimeValues(timeValues);
     pomodoroTimer.setAutoStart(autoStartEnabled);
+    soundPlayer.setAllVolumes(volume);
 
     setPomodoroTimerSettingsToLocalStorage({
       ...timeValues,
       autoStart: autoStartEnabled,
     });
+    setVolumeSettingsToLocalStorage({ volume });
+
     closeSettings();
   };
 
@@ -84,6 +98,7 @@ const PomoSettingsModal = ({
     setShortBreakValue(DEFAULT_SHORT_BREAK_MINUTES);
     setLongBreakValue(DEFAULT_LONG_BREAK_MINUTES);
     setAutoStartEnabled(false);
+    setVolume(0.7);
   };
 
   return (
@@ -144,6 +159,28 @@ const PomoSettingsModal = ({
               type="checkbox"
               checked={autoStartEnabled}
               onChange={(e) => setAutoStartEnabled(e.target.checked)}
+            />
+          </div>
+          <div className={styles.field}>
+            <label htmlFor="auto-start">Volume</label>
+            <Slider
+              aria-label="Volume"
+              value={Math.round(volume * 100)}
+              onChange={(e, value) => setVolume((value as number) / 100)}
+              step={1}
+              valueLabelDisplay="auto"
+              sx={{
+                width: 120,
+                color: palette.accent,
+                '& .MuiSlider-thumb': {
+                  '&:hover, &.Mui-focusVisible': {
+                    boxShadow: 'none',
+                  },
+                  '&.Mui-active': {
+                    boxShadow: 'none',
+                  },
+                },
+              }}
             />
           </div>
           <div className={styles.revertButtonContainer}>

@@ -26,6 +26,10 @@
   transition: 0.2s opacity;
 }
 
+.controller.running {
+  opacity: 0.8;
+}
+
 .controller:hover {
   opacity: 0.8;
 }

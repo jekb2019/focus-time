@@ -13,12 +13,14 @@ import {
 import { TimerState } from '../../../../service/timer/types';
 import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
 import { ResetButton } from './styles';
+import { SoundPlayer } from '../../../../service/sound/SoundPlayer';
 
 type TimerProps = {
   pomodoroTimer: PomodoroTimer;
   currentSeconds: number;
   currentTimerState: TimerState | 'initialized';
   palette: PomoPalette;
+  soundPlayer: SoundPlayer;
 };
 
 const Timer = ({
@@ -26,6 +28,7 @@ const Timer = ({
   currentSeconds,
   currentTimerState,
   palette,
+  soundPlayer,
 }: TimerProps) => {
   const isRunning = currentTimerState === 'running';
 
@@ -34,6 +37,7 @@ const Timer = ({
   );
 
   const handleClick = () => {
+    soundPlayer.playSound('click');
     if (currentTimerState === 'running') {
       pomodoroTimer.pauseTimer();
       return;
@@ -54,7 +58,9 @@ const Timer = ({
         <p className={styles.time}>{timeString}</p>
       </div>
       <button
-        className={styles.controller}
+        className={`${styles.controller} ${
+          isRunning ? styles.running : undefined
+        }`}
         onClick={handleClick}
         style={{
           backgroundColor: palette.accent,

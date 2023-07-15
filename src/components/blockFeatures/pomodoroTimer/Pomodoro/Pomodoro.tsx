@@ -16,19 +16,26 @@ import {
 } from '../../../../utils/time';
 import { getPomoColorPalette } from '../../../../service/pomodoro/pomoThemes';
 import { changeTabTitle } from '../../../../service/browser/browser';
+import { SoundPlayer } from '../../../../service/sound/SoundPlayer';
 
 type PomorodoProps = {
   pomodoroTimer: PomodoroTimer;
+  soundPlayer: SoundPlayer;
 };
 
-const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
+const Pomodoro = ({ pomodoroTimer, soundPlayer }: PomorodoProps) => {
   const [timerStatus, setTimerStatus] = useState<PomoTimerInfo>(() =>
     pomodoroTimer.getInfo()
   );
 
   useEffect(() => {
-    pomodoroTimer.setEventHandler((event) => setTimerStatus(event.timerInfo));
-  }, []);
+    pomodoroTimer.setEventHandler((event) => {
+      if (event.type === 'finish') {
+        soundPlayer.playSound('goal');
+      }
+      setTimerStatus(event.timerInfo);
+    });
+  }, [soundPlayer, pomodoroTimer]);
 
   const {
     currentSeconds,
@@ -91,6 +98,7 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
           longBreakTotalMinutes={secondsToMinutes(longBreakTotalSeconds)}
           isAutoStartEnabled={isAutoStartEnabled}
           palette={palette}
+          soundPlayer={soundPlayer}
         />
       )}
       <ContentBox
@@ -111,6 +119,7 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
             currentSeconds={currentSeconds}
             currentTimerState={currentTimerState}
             palette={palette}
+            soundPlayer={soundPlayer}
           />
           <TimerProgress
             percentage={
@@ -136,6 +145,7 @@ const Pomodoro = ({ pomodoroTimer }: PomorodoProps) => {
             longBreakTotalMinutes={secondsToMinutes(longBreakTotalSeconds)}
             isAutoStartEnabled={isAutoStartEnabled}
             palette={palette}
+            soundPlayer={soundPlayer}
           />
         </div>
       </ContentBox>

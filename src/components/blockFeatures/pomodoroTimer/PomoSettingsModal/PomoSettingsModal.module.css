@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: 350px;
-  height: 360px;
+  height: 430px;
   padding: 30px;
 }
 
@@ -13,7 +13,7 @@
 .settings {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 }
 
 .field {
@@ -23,15 +23,15 @@
 }
 
 .field label {
-  font-size: 1.3em;
+  font-size: 1em;
 }
 
 .inputField {
   outline: none;
   border: none;
   background-color: #efefef;
-  font-size: 1.3em;
-  width: 65px;
+  font-size: 1em;
+  width: 55px;
   padding: 3px 5px;
 }
 

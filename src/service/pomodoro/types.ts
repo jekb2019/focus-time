@@ -44,3 +44,4 @@ export type PomoConfig = {
 };
 
 export type PomoSettings = Omit<PomoConfig, 'eventHandler'>;
+export type VolumeSettings = { volume: number };

@@ -34,4 +34,5 @@ export type SettingField =
   | 'pomodoro'
   | 'short-break'
   | 'long-break'
-  | 'auto-start';
+  | 'auto-start'
+  | 'volume';
