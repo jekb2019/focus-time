@@ -1,15 +1,17 @@
 {
   "files": {
-    "main.css": "/focus-time/static/css/main.26a6df11.css",
-    "main.js": "/focus-time/static/js/main.062bbc5f.js",
+    "main.css": "/focus-time/static/css/main.f5833027.css",
+    "main.js": "/focus-time/static/js/main.3f836561.js",
     "static/js/787.1ef07f05.chunk.js": "/focus-time/static/js/787.1ef07f05.chunk.js",
+    "static/media/goal.wav": "/focus-time/static/media/goal.2098eec15e064c785562.wav",
+    "static/media/click.wav": "/focus-time/static/media/click.514e4b6ee663e4f549a5.wav",
     "index.html": "/focus-time/index.html",
-    "main.26a6df11.css.map": "/focus-time/static/css/main.26a6df11.css.map",
-    "main.062bbc5f.js.map": "/focus-time/static/js/main.062bbc5f.js.map",
+    "main.f5833027.css.map": "/focus-time/static/css/main.f5833027.css.map",
+    "main.3f836561.js.map": "/focus-time/static/js/main.3f836561.js.map",
     "787.1ef07f05.chunk.js.map": "/focus-time/static/js/787.1ef07f05.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.26a6df11.css",
-    "static/js/main.062bbc5f.js"
+    "static/css/main.f5833027.css",
+    "static/js/main.3f836561.js"
   ]
 }
