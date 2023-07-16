@@ -16,7 +16,7 @@ export const CloseButton = styled.button<{ $hoverColor: string }>`
   background-color: transparent;
   cursor: pointer;
   transition: 0.2s all;
-
+  color: black;
   &:hover {
     background-color: ${(props) => props.$hoverColor};
     color: white;

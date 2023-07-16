@@ -9,7 +9,7 @@ export const ResetButton = styled.button<{ $hoverColor: string }>`
   border: none;
   outline: none;
   cursor: pointer;
-
+  color: black;
   &:hover {
     color: ${(props) => props.$hoverColor};
   }

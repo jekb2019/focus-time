@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: 350px;
-  height: 430px;
+  height: 400px;
   padding: 30px;
 }
 
@@ -41,10 +41,12 @@
 }
 
 .revertButtonContainer {
+  margin-top: 20px;
   text-align: right;
 }
 
 .revertButton {
+  color: black;
   border: none;
   outline: none;
   background-color: transparent;
@@ -77,4 +79,10 @@
 
 .buttons button:hover {
   opacity: 0.9;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    width: 290px;
+  }
 }

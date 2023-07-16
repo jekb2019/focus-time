@@ -17,6 +17,7 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  color: black;
 }
 
 .activeSelector {
@@ -61,4 +62,26 @@
   background-color: #ff6347;
   color: white;
   border: none;
+}
+
+@media only screen and (max-width: 560px) {
+  .selectors {
+    padding: 0px 5px;
+  }
+
+  .selector {
+    font-size: 1em;
+    width: 110px;
+  }
+
+  .tracker {
+    gap: 5px;
+  }
+
+  .state {
+    font-size: 1.2em;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
 }

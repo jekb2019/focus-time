@@ -2,3 +2,9 @@
   min-height: 100vh;
   padding: 20px;
 }
+
+@media only screen and (max-width: 560px) {
+  .app {
+    padding: 5px;
+  }
+}
