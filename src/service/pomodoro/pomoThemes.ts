@@ -13,13 +13,13 @@ export const getPomoColorPalette = (pomoState: PomoState): PomoPalette => {
       };
     case 'short-break':
       return {
-        base: '#D9CCFF',
-        accent: '#9980ed',
+        base: '#A5D9C4',
+        accent: '#389D74',
       };
     case 'long-break':
       return {
-        base: '#A5D9C4',
-        accent: '#389D74',
+        base: '#D9CCFF',
+        accent: '#9980ed',
       };
   }
 };
