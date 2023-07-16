@@ -83,7 +83,7 @@ export class CountdownTimerImpl implements CountdownTimer {
       this.currentSeconds--;
       this.fireEvent('tick');
 
-      if (this.currentSeconds === 0) {
+      if (this.currentSeconds <= 0) {
         this.handleTimerFinish();
       }
     }, ONE_SECOND_INTERVAL);
