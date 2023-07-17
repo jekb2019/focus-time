@@ -16,6 +16,7 @@ import {
 } from '../../service/sound/SoundPlayer';
 import { PomoConfig } from '../../service/pomodoro/types';
 import { getVolumeSettingsFromLocalStorage } from '../../service/localStorage/volumeLocalStorage';
+import TaskTracker from '../blockFeatures/taskTracker/TaskTracker/TaskTracker';
 
 function initializePomodoroTimer(settings: PomoConfig) {
   const pomodoroTimer: PomodoroTimer = new PomodoroTimerImpl(settings);
@@ -41,13 +42,6 @@ function initialize() {
     : pomodoroDefaultSettings;
 
   const pomodoroTimer = initializePomodoroTimer(pomodoroSetting);
-  // const pomodoroTimer = initializePomodoroTimer({
-  //   pomodoro: 3,
-  //   shortBreak: 4,
-  //   longBreak: 5,
-  //   autoStart: true,
-  // });
-
   const cachedVolumeSettings = getVolumeSettingsFromLocalStorage();
 
   const volume = cachedVolumeSettings
@@ -66,7 +60,9 @@ const MainGrid = () => {
       <div className={styles.column}>
         <Pomodoro pomodoroTimer={pomodoroTimer} soundPlayer={soundPlayer} />
       </div>
-      <div className={styles.column}></div>
+      <div className={styles.column}>
+        <TaskTracker />
+      </div>
     </div>
   );
 };

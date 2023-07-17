@@ -9,12 +9,19 @@ type ContentBoxProps = {
   title: string;
   children: React.ReactNode;
   style: ContentBoxStyle;
+  headerRight?: React.ReactNode;
 };
 
-const ContentBox = ({ title, children, style }: ContentBoxProps) => (
+const ContentBox = ({
+  title,
+  children,
+  style,
+  headerRight,
+}: ContentBoxProps) => (
   <div className={styles.container} style={style}>
     <div className={styles.header}>
       <span>{title}</span>
+      {headerRight ? headerRight : null}
     </div>
     <div>{children}</div>
   </div>
