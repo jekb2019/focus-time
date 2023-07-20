@@ -1,0 +1,2 @@
+!function(){"use strict";var t,e=function(t){return t.Start="start",t.Stop="stop",t.Tick="tick",t}({});onmessage=function(o){o.data===e.Start?n((function(){postMessage(e.Tick)}),1e3):clearTimeout(t)};var n=function(e,n){var o=1,a=Date.now();t=self.setTimeout((function i(){var s=Date.now(),c=a+o*n;t=self.setTimeout(i,n-(s-c)),o+=1,e()}),n)}}();
+//# sourceMappingURL=643.c7bfb64c.chunk.js.map
