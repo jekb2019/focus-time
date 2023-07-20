@@ -1,19 +1,18 @@
-export function accurateSetInterval(callback: () => void, interval: number) {
-  let counter = 1;
-  let timeoutId: number;
-  const startTime = Date.now();
+import { TimerWorkerEvent } from '../workers/types';
 
-  function main() {
-    const nowTime = Date.now();
-    const nextTime = startTime + counter * interval;
-    timeoutId = window.setTimeout(main, interval - (nowTime - nextTime));
-    counter += 1;
-    callback();
-  }
+export function runTimerWorker(callback: () => void, interval: number) {
+  const worker = new Worker(
+    new URL('../workers/timerWorker.ts', import.meta.url)
+  );
 
-  timeoutId = window.setTimeout(main, interval);
+  worker.postMessage(TimerWorkerEvent.Start);
+  worker.onmessage = (e: MessageEvent<string>) => {
+    if (e.data === TimerWorkerEvent.Tick) {
+      callback();
+    }
+  };
 
   return () => {
-    clearTimeout(timeoutId);
+    worker.postMessage(TimerWorkerEvent.Stop);
   };
 }

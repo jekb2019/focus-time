@@ -11,7 +11,7 @@ import {
   TimerInfo,
   TimerState,
 } from './types';
-import { accurateSetInterval } from './utils';
+import { runTimerWorker } from './utils';
 
 export interface CountdownTimer {
   startTimer: () => void;
@@ -79,7 +79,7 @@ export class CountdownTimerImpl implements CountdownTimer {
     }
 
     this.updateState('running', 'start');
-    this.clearTimer = accurateSetInterval(() => {
+    this.clearTimer = runTimerWorker(() => {
       this.currentSeconds--;
       this.fireEvent('tick');
 
