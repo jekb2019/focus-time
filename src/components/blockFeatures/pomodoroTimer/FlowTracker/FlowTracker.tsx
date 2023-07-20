@@ -5,6 +5,7 @@ import { PomoFlowInfo, PomoState } from '../../../../service/pomodoro/types';
 import { useMemo } from 'react';
 import { PomodoroTimer } from '../../../../service/pomodoro/PomodoroTimer';
 import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
+import { InvalidPomoStateError } from '../../../../service/pomodoro/errors';
 
 type FlowTrackerProps = {
   currentPomoState: PomoState;
@@ -38,7 +39,7 @@ const FlowTracker = ({
     if (state === 'pomodoro') {
       return 'F';
     }
-    throw new Error('Unrecognized pomodoro state');
+    throw new InvalidPomoStateError('Unrecognized pomodoro state');
   };
 
   return (
