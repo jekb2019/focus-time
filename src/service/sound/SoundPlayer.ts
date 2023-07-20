@@ -1,5 +1,6 @@
 import clickSoundUrl from '../../assets/sounds/click.wav';
 import goalSoundUrl from '../../assets/sounds/goal.wav';
+import { InvalidVolumeLevelError } from './errors';
 import { SoundName } from './types';
 
 export const DEFAULT_VOLUME = 0.5;
@@ -33,7 +34,7 @@ export class SoundPlayerImpl implements SoundPlayer {
 
   setVolume(soundName: SoundName, volumeLevel: number) {
     if (volumeLevel < 0 || volumeLevel > 1) {
-      throw new Error('Volume ¬evel must be between 0 and 1');
+      throw new InvalidVolumeLevelError('Volume level must be between 0 and 1');
     }
 
     switch (soundName) {
