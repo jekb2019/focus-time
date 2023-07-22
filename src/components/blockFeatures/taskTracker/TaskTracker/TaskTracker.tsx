@@ -2,12 +2,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContentBox from '../../../ContentBox/ContentBox';
 import styles from './TaskTracker.module.css';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import TaskFilter from '../TaskFilter/TaskFilter';
+import TaskBoard from '../TaskBoard/TaskBoard';
 
 const TaskTracker = () => (
   <ContentBox
     title="Task Tracker"
     style={{
       backgroundColor: 'white',
+      height: '100%',
     }}
     headerRight={
       <button className={styles.addTaskButton}>
@@ -17,14 +20,8 @@ const TaskTracker = () => (
     }
   >
     <div className={styles.container}>
-      <div className={styles.taskFilter}>
-        <button className={`${styles.filter} ${styles.all} ${styles.active}`}>
-          All
-        </button>
-        <button className={`${styles.filter}`}>Todo</button>
-        <button className={`${styles.filter}`}>Done</button>
-        <button className={`${styles.filter}`}>Archived</button>
-      </div>
+      <TaskFilter />
+      <TaskBoard />
     </div>
   </ContentBox>
 );

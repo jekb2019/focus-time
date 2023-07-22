@@ -14,7 +14,7 @@ import { ONE_MINUTE_IN_SECONDS } from '../../../../utils/time';
 import { setPomodoroTimerSettingsToLocalStorage } from '../../../../service/localStorage/pomodoroLocalStorage';
 import { PomoPalette } from '../../../../service/pomodoro/pomoThemes';
 import { CloseButton } from './styles';
-import { Slider } from '@mui/material';
+import { Checkbox, FormControlLabel, Slider, Typography } from '@mui/material';
 import { SoundPlayer } from '../../../../service/sound/SoundPlayer';
 import { setVolumeSettingsToLocalStorage } from '../../../../service/localStorage/volumeLocalStorage';
 
@@ -152,13 +152,30 @@ const PomoSettingsModal = ({
             />
           </div>
           <div className={styles.field}>
-            <label htmlFor="auto-start">Auto Start</label>
-            <input
-              className={styles.checkbox}
-              id="auto-start"
-              type="checkbox"
-              checked={autoStartEnabled}
-              onChange={(e) => setAutoStartEnabled(e.target.checked)}
+            <FormControlLabel
+              sx={{
+                m: 0, // Set margin to 0 to remove the default margin
+                height: 30,
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
+              labelPlacement="start"
+              control={
+                <Checkbox
+                  checked={autoStartEnabled}
+                  onChange={(e) => setAutoStartEnabled(e.target.checked)}
+                  sx={{
+                    width: 20,
+                    height: 30,
+                    color: palette.accent,
+                    '&.Mui-checked': {
+                      color: palette.accent,
+                    },
+                  }}
+                />
+              }
+              label={<Typography style={{}}>Auto Start</Typography>}
             />
           </div>
           <div className={styles.field}>

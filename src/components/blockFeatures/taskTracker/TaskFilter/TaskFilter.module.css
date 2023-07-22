@@ -1,0 +1,45 @@
+.taskFilter {
+  display: flex;
+  justify-content: center;
+  padding: 5px 20px;
+}
+
+.filter {
+  font-size: 1.1em;
+  width: 120px;
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding: 5px;
+  color: gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.filter:hover {
+  color: black;
+}
+
+.active {
+  color: black;
+  font-weight: bold;
+}
+
+.all {
+  border-right: 2px solid gray;
+}
+
+.count {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
+  background-color: rgb(111, 111, 111);
+  color: white;
+}

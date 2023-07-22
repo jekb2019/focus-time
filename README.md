@@ -40,4 +40,4 @@ pomodoro-short-pomodoro-short-pomodoro-short-pomodoro-long
 - Am I gonna leave this repo public? - IDK
 - Write documentation explaining directory structure
 - Add validations to settings modal input values
-  .
+- Have UI guards for inputs and texts that are too long

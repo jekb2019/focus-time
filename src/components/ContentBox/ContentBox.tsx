@@ -3,6 +3,7 @@ import styles from './ContentBox.module.css';
 
 type ContentBoxStyle = {
   backgroundColor: string;
+  height?: string;
 };
 
 type ContentBoxProps = {
