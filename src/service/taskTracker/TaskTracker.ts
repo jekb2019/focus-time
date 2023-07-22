@@ -3,7 +3,7 @@ import { Task } from './type';
 import { getCurrentDateFieldValue } from './utils';
 import { tasks as mockTasks } from './mock';
 
-interface TaskTracker {
+export interface TaskTracker {
   getAllTasks(): Task[];
   createTask(name: string, description: string): Task;
   updateName(id: string, name: string): Task[];

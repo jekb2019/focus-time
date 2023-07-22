@@ -1,0 +1,63 @@
+.ticket {
+  position: relative;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 5px;
+  background-color: rgb(220, 220, 220);
+}
+
+.completed {
+  background-color: rgb(236, 236, 236);
+}
+
+.seeMoreButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5em;
+  width: 30px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+}
+
+.seeMoreButton:hover {
+  color: rgb(108, 108, 108);
+}
+
+.title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.completed .title {
+  text-decoration: line-through;
+  color: rgb(158, 158, 158);
+}
+
+.description {
+  font-size: 1em;
+}
+
+.completed .description {
+  color: rgb(158, 158, 158);
+}
+
+.additionalInfo {
+  font-size: 0.8em;
+  color: rgb(138, 138, 138);
+}
+
+.completed .additionalInfo {
+  color: rgb(158, 158, 158);
+}
+
+.doneCheckBox {
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+}

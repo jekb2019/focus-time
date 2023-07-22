@@ -16,9 +16,13 @@ import {
 } from '../../service/sound/SoundPlayer';
 import { PomoConfig } from '../../service/pomodoro/types';
 import { getVolumeSettingsFromLocalStorage } from '../../service/localStorage/volumeLocalStorage';
-import TaskTracker from '../blockFeatures/taskTracker/TaskTracker/TaskTracker';
+import TaskManager from '../blockFeatures/taskTracker/TaskManager/TaskManager';
+import {
+  TaskTracker,
+  TaskTrackerImpl,
+} from '../../service/taskTracker/TaskTracker';
 
-function initializePomodoroTimer(settings: PomoConfig) {
+function initializeTimer(settings: PomoConfig) {
   const pomodoroTimer: PomodoroTimer = new PomodoroTimerImpl(settings);
   return pomodoroTimer;
 }
@@ -28,7 +32,7 @@ function initializeSoundPlayer(volume: number) {
   return soundPlayer;
 }
 
-function initialize() {
+function initializePomodoroTimer() {
   const cachedPmodoroSettings = getPomodoroTimerSettingsFromLocalStorage();
   const pomodoroDefaultSettings: PomoConfig = {
     pomodoro: DEFAULT_POMODORO_MINUTES * ONE_MINUTE_IN_SECONDS,
@@ -41,7 +45,7 @@ function initialize() {
     ? cachedPmodoroSettings
     : pomodoroDefaultSettings;
 
-  const pomodoroTimer = initializePomodoroTimer(pomodoroSetting);
+  const pomodoroTimer = initializeTimer(pomodoroSetting);
   const cachedVolumeSettings = getVolumeSettingsFromLocalStorage();
 
   const volume = cachedVolumeSettings
@@ -52,7 +56,12 @@ function initialize() {
   return { pomodoroTimer, soundPlayer };
 }
 
-const { pomodoroTimer, soundPlayer } = initialize();
+function initializeTaskTracker(): TaskTracker {
+  return new TaskTrackerImpl(true);
+}
+
+const { pomodoroTimer, soundPlayer } = initializePomodoroTimer();
+const taskTracker = initializeTaskTracker();
 
 const MainGrid = () => {
   return (
@@ -61,7 +70,7 @@ const MainGrid = () => {
         <Pomodoro pomodoroTimer={pomodoroTimer} soundPlayer={soundPlayer} />
       </div>
       <div className={styles.column}>
-        <TaskTracker />
+        <TaskManager taskTracker={taskTracker} />
       </div>
     </div>
   );
