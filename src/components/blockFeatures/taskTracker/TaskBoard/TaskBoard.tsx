@@ -1,17 +1,52 @@
 import styles from './TaskBoard.module.css';
 import TaskTicket from '../TaskTicket/TaskTicket';
 import { Task } from '../../../../service/taskTracker/type';
+import {
+  DragDropContext,
+  Draggable,
+  DropResult,
+  Droppable,
+} from '@hello-pangea/dnd';
 
 type TaskBoardProps = {
   tasks: Task[];
+  reorderTasks: (id: string, newIndex: number) => void;
+  refreshTasks: () => void;
 };
 
-const TaskBoard = ({ tasks }: TaskBoardProps) => {
+const TaskBoard = ({ tasks, reorderTasks, refreshTasks }: TaskBoardProps) => {
+  const onDragEnd = (result: DropResult) => {
+    const { draggableId, destination } = result;
+    if (destination) {
+      reorderTasks(draggableId, destination.index);
+      refreshTasks();
+    }
+  };
+
   return (
     <div className={styles.container}>
-      {tasks.map((task) => (
-        <TaskTicket key={task.id} task={task} />
-      ))}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided, snapshot) => (
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+              {tasks.map((task, index) => (
+                <Draggable key={task.id} draggableId={task.id} index={index}>
+                  {(provided, snapshot) => (
+                    <div
+                      className={styles.draggable}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <TaskTicket key={task.id} task={task} />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 };

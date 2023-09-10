@@ -5,13 +5,21 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import TaskFilter from '../TaskFilter/TaskFilter';
 import TaskBoard from '../TaskBoard/TaskBoard';
 import { TaskTracker } from '../../../../service/taskTracker/TaskTracker';
+import { useState } from 'react';
 
 type TaskManagerProps = {
   taskTracker: TaskTracker;
 };
 
 const TaskManager = ({ taskTracker }: TaskManagerProps) => {
-  const tasks = taskTracker.getAllTasks();
+  const [tasks, setTasks] = useState(() => taskTracker.getAllTasks());
+  const reorderTasks = (id: string, newIndex: number) => {
+    taskTracker.reorderTask(id, newIndex);
+  };
+
+  const refreshTasks = () => {
+    setTasks(taskTracker.getAllTasks());
+  };
 
   return (
     <ContentBox
@@ -29,7 +37,11 @@ const TaskManager = ({ taskTracker }: TaskManagerProps) => {
     >
       <div className={styles.container}>
         <TaskFilter />
-        <TaskBoard tasks={tasks} />
+        <TaskBoard
+          tasks={tasks}
+          reorderTasks={reorderTasks}
+          refreshTasks={refreshTasks}
+        />
       </div>
     </ContentBox>
   );

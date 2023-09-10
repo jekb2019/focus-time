@@ -2,9 +2,11 @@ import { nanoid } from 'nanoid';
 import { Task } from './type';
 import { getCurrentDateFieldValue } from './utils';
 import { tasks as mockTasks } from './mock';
+import { changeElementIndex } from '../../utils/array';
 
 export interface TaskTracker {
   getAllTasks(): Task[];
+  reorderTask(id: string, newIndex: number): void;
   createTask(name: string, description: string): Task;
   updateName(id: string, name: string): Task[];
   updateDescription(id: string, description: string): Task[];
@@ -32,6 +34,25 @@ export class TaskTrackerImpl implements TaskTracker {
       }
       return task;
     });
+    this.tasks = updatedTasks;
+  }
+
+  reorderTask(id: string, newIndex: number) {
+    if (newIndex < 0) {
+      throw new Error('Cannot have negative index');
+    }
+    if (newIndex >= this.tasks.length) {
+      throw new Error(`index ${newIndex} is out of range`);
+    }
+
+    const taskIndex = this.tasks.findIndex((task) => task.id === id);
+    if (taskIndex === -1) {
+      throw new Error(`Task with id ${id} does not exist`);
+    }
+
+    const updatedTasks = [...this.tasks];
+
+    changeElementIndex(updatedTasks, taskIndex, newIndex);
     this.tasks = updatedTasks;
   }
 

@@ -4,3 +4,7 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.draggable {
+  margin-bottom: 10px;
+}
