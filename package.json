@@ -53,5 +53,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://jekb2019.github.io/focus-time"
+  "homepage": "https://jekb2019.github.io/focus-time",
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
 }
