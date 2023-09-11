@@ -6,9 +6,10 @@ import { Task } from '../../../../service/taskTracker/type';
 
 type TaskTicketProps = {
   task: Task;
+  setIsCopmlete: (taskId: string, isCompleted: boolean) => void;
 };
 
-const TaskTicket = ({ task }: TaskTicketProps) => {
+const TaskTicket = ({ task, setIsCopmlete }: TaskTicketProps) => {
   const isCompleted = task.isCompleted;
   return (
     <div
@@ -25,7 +26,7 @@ const TaskTicket = ({ task }: TaskTicketProps) => {
       <div className={styles.doneCheckBox}>
         <Checkbox
           checked={isCompleted}
-          onChange={console.log}
+          onChange={(e) => setIsCopmlete(task.id, e.target.checked)}
           sx={{
             color: 'black',
             '&.Mui-checked': {

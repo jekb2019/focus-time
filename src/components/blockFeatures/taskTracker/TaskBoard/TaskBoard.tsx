@@ -12,9 +12,15 @@ type TaskBoardProps = {
   tasks: Task[];
   reorderTasks: (id: string, newIndex: number) => void;
   refreshTasks: () => void;
+  setIsCopmlete: (taskId: string, isCompleted: boolean) => void;
 };
 
-const TaskBoard = ({ tasks, reorderTasks, refreshTasks }: TaskBoardProps) => {
+const TaskBoard = ({
+  tasks,
+  reorderTasks,
+  refreshTasks,
+  setIsCopmlete,
+}: TaskBoardProps) => {
   const onDragEnd = (result: DropResult) => {
     const { draggableId, destination } = result;
     if (destination) {
@@ -38,11 +44,16 @@ const TaskBoard = ({ tasks, reorderTasks, refreshTasks }: TaskBoardProps) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <TaskTicket key={task.id} task={task} />
+                      <TaskTicket
+                        key={task.id}
+                        task={task}
+                        setIsCopmlete={setIsCopmlete}
+                      />
                     </div>
                   )}
                 </Draggable>
               ))}
+              {provided.placeholder}
             </div>
           )}
         </Droppable>

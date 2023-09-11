@@ -8,3 +8,5 @@ export type Task = {
   completedAt: string;
   updatedAt: string;
 };
+
+export type TaskFilterOption = 'all' | 'todo' | 'done' | 'archived';
